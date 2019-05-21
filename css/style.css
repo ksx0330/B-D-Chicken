@@ -1,0 +1,100 @@
+
+body {
+    font-family: 'Do Hyeon', sans-serif;
+    padding-top: 56px;
+    background-color: #fff9ed;
+}
+
+a:hover {
+    color: black;
+}
+
+a {
+    color: black;
+}
+
+/*
+.container-fluid {
+    padding-right: 125px;
+    padding-left: 125px;
+}
+*/
+
+.main_page {
+    width: 60%;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+}
+
+.bg-chicken {
+    background-color: #efc970 !important;
+}
+
+.img_top {
+    vertical-align: top;
+}
+
+.full_button {
+    width: 100%;
+}
+
+.m1_bottom {
+    margin-bottom: 1rem;
+}
+
+.large_font {
+    font-size: 1.6rem;
+
+}
+
+.btn-gray {
+    background-color: #a0a0a0;
+    border-color: #a0a0a0;
+    color: white;
+}
+
+.btn-gray:hover {
+    background-color: #8c8c8c;
+    border-color: #a0a0a0;
+    color: white;
+}
+
+.btn-red {
+    background-color: #ff6868;
+    border-color: #ff6868;
+    color: white;
+}
+
+.btn-red:hover {
+    background-color: #cc4b4b;
+    border-color: #ff6868;
+    color: white;
+}
+
+.btn-yellow {
+    background-color: #ffce5b;
+    border-color: #fcdb8d;
+    color: white;
+}
+
+.btn-yellow:hover {
+    background-color: #efbe4a;
+    border-color: #efbe4a;
+    color: white;
+}
+
+.card {
+    margin-top: 20px;
+    background-color: #f9f9f9;
+}
+
+.url_label {
+    background-color: #fdfdfd; 
+    margin-bottom: 10px;
+}
+
+.one_line_height {
+    line-height: 1;
+}
