@@ -12,7 +12,7 @@ include "/home/ltaeng/Downloads/con/dbconnect.php";
     <?php include "../navbar.php"; ?>
 
   <!-- Page Content -->
-  <div class="container-fluid" style="padding-left: 125px; padding-right: 125px; background-image: url('./assets/images/background-2.png');">
+  <div class="container-fluid" style="padding-left: 125px; padding-right: 125px; background-image: url('../../assets/images/background-2.png');">
     <div class="row">
 
       <!-- /.col-lg-3 -->
