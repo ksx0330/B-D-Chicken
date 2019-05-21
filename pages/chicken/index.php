@@ -26,10 +26,10 @@ include "/home/ltaeng/Downloads/con/dbconnect.php";
                 <span class="huge_font" style="float: left; padding-left: 1.5rem;">
                     이 달의 추천 메뉴
                 </span>
-                <div class="btn btn-lg btn-secondary text-left" style="float: right" onclick="window.location.href='./list.php'">
+                <a href="./list.php" class="btn btn-lg btn-secondary text-left" style="float: right">
                     일반 메뉴 조회
                     <div style="padding-left: 20px; float: right;"><img src="../../assets/images/arrow.svg" width=30 height=30 /></div>
-                </div>
+                </a>
 
             </div>
           </div>
