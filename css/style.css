@@ -10,7 +10,7 @@ body {
     background-color: #fff9ed;
 }
 
-a a:hover a:link{
+a, a:hover, a:link{
     color: black;
 }
 
