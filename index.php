@@ -37,19 +37,19 @@ include "/home/ltaeng/Downloads/con/dbconnect.php";
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="#">메뉴</a></h4>
+                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="./pages/chicken/index.php">메뉴</a></h4>
             </li>
             <li class="nav-item">
                 <h4 class="mx-2 my-0"> | </h4>
             </li>
             <li class="nav-item">
-                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="#">배달조회</a> </h4>
+                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="./pages/chicken/baedal.php">배달조회</a> </h4>
             </li>
             <li class="nav-item">
                 <h4 class="mx-2 my-0"> | </h4>
             </li>
             <li class="nav-item">
-                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="#">커뮤니티</a> </h4>
+                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="./pages/community/">커뮤니티</a> </h4>
             </li>
             <li class="nav-item">
                 <h4 class="mx-2 my-0"> | </h4>
@@ -237,7 +237,7 @@ include "/home/ltaeng/Downloads/con/dbconnect.php";
                   </div>
                 </div>
 
-            <div class="card">
+            <div class="card" onclick="location.href='./pages/chicken/baedal.php'">
                 <div class="card-body">
                     <div class="btn btn-lg btn-red full_button text-left">
                         <span class="large_font">배달조회</span>
@@ -246,7 +246,7 @@ include "/home/ltaeng/Downloads/con/dbconnect.php";
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card" onclick="location.href='./pages/community/notice.php'">
                 <div class="card-body">
                     <div class="btn btn-lg btn-yellow full_button text-left">
                         <span class="large_font">

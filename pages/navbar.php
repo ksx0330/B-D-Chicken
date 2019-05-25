@@ -8,19 +8,19 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="#">메뉴</a></h4>
+                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="../chicken/">메뉴</a></h4>
             </li>
             <li class="nav-item">
                 <h4 class="mx-2 my-0"> | </h4>
             </li>
             <li class="nav-item">
-                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="#">배달조회</a> </h4>
+                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="../chicken/baedal.php">배달조회</a> </h4>
             </li>
             <li class="nav-item">
                 <h4 class="mx-2 my-0"> | </h4>
             </li>
             <li class="nav-item">
-                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="#">커뮤니티</a> </h4>
+                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="../community/notice.php">커뮤니티</a> </h4>
             </li>
             <li class="nav-item">
                 <h4 class="mx-2 my-0"> | </h4>

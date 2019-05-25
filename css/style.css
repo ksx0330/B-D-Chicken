@@ -55,6 +55,11 @@ a, a:hover, a:link{
     color: black;
 }
 
+.btn-radius {
+	padding: 0.5rem 1.5rem;
+	border-radius: 13px;
+}
+
 .btn-gray {
     background-color: #a0a0a0;
     border-color: #a0a0a0;
