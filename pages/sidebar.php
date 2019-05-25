@@ -3,8 +3,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="text-center">
-                    <img src="./assets/images/Text_Logo.svg" height=100 class="img_top" style="width: 5rem;" />
-                    <img src="./assets/images/Chicken_Logo.svg" height=150 style="width: 7rem;" />
+                    <img src="../../assets/images/Text_Logo.svg" height=100 class="img_top" style="width: 5rem;" />
+                    <img src="../../assets/images/Chicken_Logo.svg" height=150 style="width: 7rem;" />
                 </div>
                 <h5 class="card-title">로그인</h5>
                 <form>
@@ -21,7 +21,7 @@
             <div class="card-body">
                 <div class="btn btn-lg btn-red full_button text-left">
                     <span class="large_font">배달조회</span>
-                    <div style="float: right;"><img src="./assets/images/box.svg" style="width: 6rem; height: 7rem" /></div>
+                    <div style="float: right;"><img src="../../assets/images/box.svg" style="width: 6rem; height: 7rem" /></div>
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@
                     <span class="large_font">
                         커뮤니티
                         <div style="float: right; padding-top: 10px;">
-                            <img src="./assets/images/Q&A.svg" style="width: 4rem; height: 4rem;" />
+                            <img src="../../assets/images/Q&A.svg" style="width: 4rem; height: 4rem;" />
                         </div>
                         <br>& 자유게시판
                     </span>
@@ -49,8 +49,8 @@
                         사이트 연결
                         <br>
                     </span>
-                        <div class="url_label"><img src="./assets/images/lck.png" style="width: 10rem; height: 5rem" /></div>
-                        <div class="url_label"><img src="./assets/images/kbo.png" style="width: 10rem; height: 5rem" /></div>
+                        <div class="url_label"><img src="../../assets/images/lck.png" style="width: 10rem; height: 5rem" /></div>
+                        <div class="url_label"><img src="../../assets/images/kbo.png" style="width: 10rem; height: 5rem" /></div>
                 </div>
             </div>
         </div>
