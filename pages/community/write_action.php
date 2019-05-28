@@ -46,12 +46,12 @@ mysqli_query($con, "set session character_set_results=utf8;");
 mysqli_query($con, "set session character_set_client=utf8;");
 
 
-$query = "insert into $community (ID, userId, context, title, time, hit) 
+$query = "insert into $community (ID, userId, context, title, time, hit)
 		values(null, '" . $_SESSION['usr_id'] . "', '$context', '$title', '$time', 0)";
 $result = $con->query($query);
 
 if($result){
-?>		
+?>
 	<script>
 		alert("<?php echo"글이 등록되었습니다!"?>");
 		location.replace("<?php echo $URL ?>");

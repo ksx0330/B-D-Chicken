@@ -1,5 +1,5 @@
 <?php
-include "/home/ltaeng/Downloads/con/dbconnect.php";
+$con = mysqli_connect("220.68.91.224", "chicken", "passwd", "chicken") or die("ERROR" . mysqli_error($con));
 ?>
 <!DOCTYPE html>
 <html>
