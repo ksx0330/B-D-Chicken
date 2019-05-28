@@ -2,6 +2,15 @@
 session_start();
 include "/home/ltaeng/Downloads/con/dbconnect.php";
 
+$kind = mysqli_real_escape_string($con, $_GET['kind']);
+
+if ($kind == 2)
+	$community = "free";
+else {
+	$community = "notice";
+	$kind = 1;
+}
+
 /*
 if (!isset($_SESSION['usr_id']))
 	header("location: ../user/login.php");
@@ -86,7 +95,12 @@ $_SESSION['usr_name'] = "조선주";
 		  <div class="col-lg-12 mt-4">
             <div class="btn btn-yellow full_button">
                 <span class="huge_font" style="float: left; padding-left: 1.5rem;">
-                    공지 사항
+					<?php
+					if ($community == 'notice')
+						echo '공지 사항';
+					else if ($community == 'free')
+						echo '자유 게시판';
+					?>
                 </span>
             </div>
           </div>
@@ -99,13 +113,14 @@ $_SESSION['usr_name'] = "조선주";
 				mysqli_query($con, "set session character_set_results=utf8;");
 				mysqli_query($con, "set session character_set_client=utf8;");
 			
-				$id = $_GET['ID'];
-				$query = "select title, context, time, hit, userId from board where ID = '$id'";
+				$ID = mysqli_real_escape_string($con, $_GET['ID']);
+				$hit = "update $community set hit=hit+1 where ID=$ID";
+                $con->query($hit);
+				
+				$query = "select title, context, time, hit, userId, (SELECT `name` FROM `user` WHERE `userId` = `$community`.`userId`) as `name` from $community where ID = '$ID'";
 				$result = $con->query($query);
 				$rows = mysqli_fetch_assoc($result);
 				
-				$hit = "update board set hit=hit+1 where ID=$id";
-                $con->query($hit);
 			?>
 	 
 			<table class="table table-bordered" align=center>
@@ -114,7 +129,7 @@ $_SESSION['usr_name'] = "조선주";
 			</tr>
 			<tr>
 					<td class="view_id">작성자</td>
-					<td class="view_id2"><?php echo "&nbsp;&nbsp;&nbsp;&nbsp;" . $_SESSION['usr_id']?></td>
+					<td class="view_id2"><?php echo "&nbsp;&nbsp;&nbsp;&nbsp;" . $rows['name']?></td>
 					<td class="view_hit">조회수</td>
 					<td class="view_hit2"><?php echo "&nbsp;&nbsp;&nbsp;&nbsp;" . $rows['hit']?></td>
 			</tr>
@@ -129,19 +144,15 @@ $_SESSION['usr_name'] = "조선주";
 			<!-- MODIFY & DELETE -->
 			<div class="text-center">
 				<center>
-					<button class="btn btn-yellow btn-radius mx-1 my-2" onclick="location.href='./notice.php'">목록</button>
-					<button class="btn btn-yellow btn-radius mx-1 my-2" onclick="location.href='./modify.php?number=<?=$ID?>&id=<?=$_SESSION['usrid']?>'">수정</button>
-					<button class="btn btn-yellow btn-radius mx-1 my-2" onclick="location.href='./delete.php?number=<?=$ID?>&id=<?=$_SESSION['usrid']?>'">삭제</button>
+					<button class="btn btn-yellow btn-radius mx-1 my-2" onclick="location.href='./notice.php?kind=<?php echo $kind; ?>'">목록</button>
+					<button class="btn btn-yellow btn-radius mx-1 my-2" onclick="location.href='./modify.php?ID=<?=$ID?>&kind=<?php echo $kind; ?>'">수정</button>
+					<button class="btn btn-yellow btn-radius mx-1 my-2" onclick="del()">삭제</button>
 				</center>
 			</div>			
 			
-			
 			  </div>
 		  </div>
-			
-			
 
-			
         </div>
 		
         <!-- /.col-lg-9 -->
@@ -156,3 +167,14 @@ $_SESSION['usr_name'] = "조선주";
 
     </body>
 </html>
+<script>
+	function del(){
+		var quest = confirm('정말로 게시글을 삭제하시겠습니까?');
+		if(quest){
+			location.href='./delete.php?ID=<?=$ID?>&kind=<?php echo $kind; ?>';
+		}
+		else{
+			location.href='./notice.php';
+		}
+	}
+</script>

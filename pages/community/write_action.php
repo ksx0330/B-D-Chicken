@@ -1,6 +1,6 @@
 ﻿<?php
 session_start();
-include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/sql/co_/dbconnect.php";
+include "/home/ltaeng/Downloads/con/dbconnect.php";
 
 /*
 $URL = '././index.php';
@@ -12,6 +12,14 @@ if (!isset($_SESSION['usr_id'])){
 }
 */
 
+if (!isset($_POST['title']) || !isset($_POST['context']) || !isset($_POST['kind'])) {
+	echo '<script>
+	alert("잘못된 접근입니다.");
+	history.back();
+	</script>';
+	exit();
+}
+
 if (trim(preg_replace('/\r\n|\r|\n/','', $_POST['title'])) == '' || trim(preg_replace('/\r\n|\r|\n/','', $_POST['context'])) == '') {
 	echo '<script>
 	alert("입력값을 다 채워주시길 바랍니다.");
@@ -22,16 +30,23 @@ if (trim(preg_replace('/\r\n|\r|\n/','', $_POST['title'])) == '' || trim(preg_re
 
 $title = mysqli_real_escape_string($con, $_POST['title']);
 $context = mysqli_real_escape_string($con, $_POST['context']);
+$kind = mysqli_real_escape_string($con, $_POST['kind']);
 $time = date('Y-m-d H:i:s');
 
-$URL = './notice.php';
+if ($kind == 2)
+	$community = "free";
+else
+	$community = "notice";
+
+
+$URL = './notice.php?kind=' . $kind;
 
 mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
 mysqli_query($con, "set session character_set_client=utf8;");
 
 
-$query = "insert into board (ID, userId, context, title, time, hit) 
+$query = "insert into $community (ID, userId, context, title, time, hit) 
 		values(null, '" . $_SESSION['usr_id'] . "', '$context', '$title', '$time', 0)";
 $result = $con->query($query);
 

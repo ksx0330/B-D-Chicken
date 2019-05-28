@@ -1,6 +1,5 @@
 <?php
 include "/home/ltaeng/Downloads/con/dbconnect.php";
-
 ?>
 <!DOCTYPE html>
 <html>

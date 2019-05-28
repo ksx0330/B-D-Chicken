@@ -1,6 +1,6 @@
 ﻿<?php
 session_start();
-include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/sql/co_/dbconnect.php";
+include "/home/ltaeng/Downloads/con/dbconnect.php";
 
 /*
 $URL = '././index.php';
@@ -13,6 +13,26 @@ if (!isset($_SESSION['usr_id'])){
 */
 $_SESSION['usr_id'] = 1;
 $_SESSION['usr_name'] = "조선주";
+$ID = $_GET['ID'];
+
+$kind = mysqli_real_escape_string($con, $_GET['kind']);
+if ($kind == 2)
+	$community = "free";
+else {
+	$community = "notice";
+	$kind = 1;
+}
+
+mysqli_query($con, "set session character_set_connection=utf8;");
+mysqli_query($con, "set session character_set_results=utf8;");
+mysqli_query($con, "set session character_set_client=utf8;");
+
+$ID = $_GET['ID'];
+$query = "select title, context, time, hit, userId from $community where ID = '$ID'";
+$result = $con->query($query);
+$rows = mysqli_fetch_assoc($result);
+
+
 
 ?>
 <!DOCTYPE html>
@@ -48,21 +68,7 @@ $_SESSION['usr_name'] = "조선주";
 			vertical-align: top;
 			border-bottom: 1px solid #ccc;
         }
-		.view_button1 {
-			font-size: 16px;
-			margin: 21px 7px;
-			transition-duration: 0.4s;
-			cursor: pointer;
-			border-radius: 13px;
-			padding: 6px 28px;
-			text-align: center;
-			background-color: #e7e7e7;
-			color: black;
-			border: 2px solid #e7e7e7;
-		}
-		.view_button1:hover {
-			background-color: white;
-		}
+
 	</style>
 	
 	
@@ -79,29 +85,38 @@ $_SESSION['usr_name'] = "조선주";
 		  <div class="col-lg-12 mt-4">
             <div class="btn btn-yellow full_button">
                 <span class="huge_font" style="float: left; padding-left: 1.5rem;">
-                    공지 사항 - 수정
+					<?php
+					if ($community == 'notice')
+						echo '공지 사항';
+					else if ($community == 'free')
+						echo '자유 게시판';
+					?> - 수정
                 </span>
             </div>
           </div>
 
             <div class="card text-center">
                 <div class="card-body">
-			        <form method="post" action="modify_action.php">
+				
+				
+			        <form method="POST" action="modify_action.php">
 			            <table class="table">
 				            <tr class="text-left">
 					            <td>작성자</td>
-					            <td><input class="form-control" type="hidden" name="id" value="<?=$_SESSION['usr_id']?>"><?=$_SESSION['usr_name']?></td>
+					            <td><input class="form-control" type="hidden" name="ID" value="<?=$_SESSION['usr_id']?>"><?=$_SESSION['usr_name']?></td>
 				            </tr>
 				            <tr>
 					            <td>제목</td>
-					            <td><input class="form-control" type = "text" name = "title" size=60></td>
+					            <td><input class="form-control" type = "text" name = "title" size=60 value="<?php echo $rows['title']?>"></td>
 				            </tr>
 
 				            <tr>
 					            <td>내용</td>
-					            <td><textarea class="form-control" name = "context" cols=85 rows=15></textarea></td>
+					            <td><textarea class="form-control" name = "context" cols=85 rows=15 ><?php echo $rows['context']?></textarea></td>
 				            </tr>	
 			            </table>
+						<input type = "hidden" value="<?= $ID?>" name="ID">
+						<input type="hidden" name="kind" value="<?php echo $kind; ?>">
 			            <input class="btn btn-yellow btn-radius mx-1 my-2" type = "submit" value="작성">
                         <a class="btn btn-yellow btn-radius mx-1 my-2 text-white" href='./notice.php'>목록</a>
                     </form>
