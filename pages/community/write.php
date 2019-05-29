@@ -22,7 +22,7 @@ if (!isset($_SESSION['usr_id'])){
 <html>
     <head>
     <?php include "../header.php"; ?>
-	
+
     </head>
 	<style>
 		table.table2{
@@ -34,7 +34,7 @@ if (!isset($_SESSION['usr_id'])){
 			margin : 20px 10px;
         }
         table.table2 tr {
-			width: 50px;	
+			width: 50px;
 			padding: 10px;
 			vertical-align: top;
 			border-bottom: 1px solid #ccc;
@@ -52,8 +52,8 @@ if (!isset($_SESSION['usr_id'])){
 			border-bottom: 1px solid #ccc;
         }
 	</style>
-	
-	
+
+
     <body>
     <?php include "../navbar.php"; ?>
 
@@ -61,7 +61,7 @@ if (!isset($_SESSION['usr_id'])){
   <div class="container-fluid" style="padding-left: 125px; padding-right: 125px; background-image: url('../../assets/images/background-2.png');">
 
    <div class="row">
-		
+
         <div class="col-lg-9">
 		  <div class="col-lg-12 mt-4">
             <div class="btn btn-yellow full_button">
@@ -92,7 +92,7 @@ if (!isset($_SESSION['usr_id'])){
 				            <tr>
 					            <td>내용</td>
 					            <td><textarea class="form-control" name = "context" cols=85 rows=15></textarea></td>
-				            </tr>	
+				            </tr>
 			            </table>
 						<input type="hidden" name="kind" value="<?php echo $kind; ?>">
 			            <input class="btn btn-yellow btn-radius mx-1 my-2" type = "submit" value="작성">
