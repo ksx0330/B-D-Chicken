@@ -1,5 +1,5 @@
 <?php
-$con = mysqli_connect("220.68.91.224", "chicken", "passwd", "chicken") or die("ERROR" . mysqli_error($con));
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 ?>
 <!DOCTYPE html>
 <html>

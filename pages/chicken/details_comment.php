@@ -1,6 +1,6 @@
 <?php
-
-$con = mysqli_connect("220.68.91.224", "chicken", "passwd", "chicken") or die("ERROR" . mysqli_error($con));
+session_start();
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
 mysqli_query($con, "set session character_set_client=utf8;");
