@@ -1,6 +1,12 @@
 <?php
-$con = mysqli_connect("220.68.91.224", "chicken", "passwd", "chicken") or die("ERROR" . mysqli_error($con));
-$con->set_charset("utf8");
+session_start();
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+
+mysqli_query($con, "set session character_set_connection=utf8;");
+mysqli_query($con, "set session character_set_results=utf8;");
+mysqli_query($con, "set session character_set_client=utf8;");
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -82,7 +88,6 @@ $con->set_charset("utf8");
                <div class="card-body p-1">
                  <form method="post" action="details_comment.php" class="ml-3">
                    <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
-                   <input class="form-control col-2" type="text" name="name" placeholder="이름" value="<?php if(isset($name)){echo $name;} ?>">
                    <input class="form-control col-2" type="text" name="title" size=60 placeholder="제목" value="<?php if(isset($title)){echo $title;} ?>">
                    <textarea class="form-control col-10" name="context" cols=85 rows=6 placeholder="내용" value="<?php if(isset($context)){echo $context;} ?>" ></textarea>
                    <input class="btn btn-yellow btn-radius mx-1 my-2" type="submit" value="작성">

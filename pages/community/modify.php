@@ -1,6 +1,6 @@
 ﻿<?php
 session_start();
-include "/home/ltaeng/Downloads/con/dbconnect.php";
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
 /*
 $URL = '././index.php';

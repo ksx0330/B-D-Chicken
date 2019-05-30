@@ -1,15 +1,22 @@
 <?php
+session_start();
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
-$con = mysqli_connect("220.68.91.224", "chicken", "passwd", "chicken") or die("ERROR" . mysqli_error($con));
+if (!isset($_SESSION['usr_id'])) exit(0);
+
 mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
 mysqli_query($con, "set session character_set_client=utf8;");
 
+$id = mysqli_real_escape_string($con, $_POST['id']);
+$title = mysqli_real_escape_string($con, $_POST['title']);
+$context = mysqli_real_escape_string($con, $_POST['context']);
+
 // Need to implement session access(for insert userId value into items_comment)
-$sql = "INSERT INTO items_comment(itemsId, userId, name, title, context) VALUES (".$_POST['id'].", 1, '".$_POST['name']."', '".$_POST['title']."', '".$_POST['context']."')";
+$sql = "INSERT INTO `items_comment`(`itemsId`, `userId`, `name`, `title`, `context`) VALUES (".$id.", " .  $_SESSION['usr_id'] . ", '" . $_SESSION['usr_name'] . "', '" . $title . "', '" . $context . "')";
 mysqli_query($con, $sql);
 
-$url = './details.php?id='.$_POST['id'];
+$url = './details.php?id=' . $id;
 ?>
 <script>
   alert("<?php echo"댓글이 등록되었습니다!"?>");
