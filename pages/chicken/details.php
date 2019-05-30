@@ -1,11 +1,18 @@
 <?php
 session_start();
-include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+include "../../sql/connection/dbconnect.php";
 
 mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
 mysqli_query($con, "set session character_set_client=utf8;");
 
+if(!isset($_GET['id'])) {
+  echo '
+    <script>
+      location.replace("./details.php?id=1");
+    </script>
+  ';
+}
 
 ?>
 <!DOCTYPE html>
@@ -42,10 +49,10 @@ mysqli_query($con, "set session character_set_client=utf8;");
                        <h3 class="card-subtitle text-muted mt-1">'.$rows['price'].'원</h4>
                        <h4 class="card-text mt-4">'.$rows['context'].'</p>
                        <div class="form-group row">
-                         <div class="col-8">
-                           <input class="form-control" type="number" value="1" min="1">
-                         </div>
-                         <a class="btn btn-primary" href="#">주문하기</a>
+                         <form method="post" action="payment.php">
+                           <input class="form-control col-6 ml-3" name="num" type="number" value="1" min="1">
+                           <input class="btn btn-primary col-6 ml-3" type="submit" value="주문하기">
+                         </form>
                        </div>
                      </div>
                    </div>

@@ -4,6 +4,7 @@ include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
 $_SESSION['usr_id'] = 1;
 $_SESSION['usr_name'] = '조선주';
+
 if (!isset($_SESSION['usr_id'])) {
     echo '<script>
             alert("로그인이 필요합니다.");
@@ -333,7 +334,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             if (nowCupon.length == 0) return;
 
             $("#unusedCupon").append("<option name=" + nowCupon.attr("name") + " price=" + nowCupon.attr("price") + ">" + nowCupon.text() + "</option>");
-            nowCupon.remove();    
+            nowCupon.remove();
 
             cuponPrice -= Number(nowCupon.attr("price"));
             updatePrice();
