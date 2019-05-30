@@ -3,6 +3,7 @@ session_start();
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
 $_SESSION['usr_id'] = 1;
+$_SESSION['usr_name'] = '조선주';
 if (!isset($_SESSION['usr_id'])) {
     echo '<script>
             alert("로그인이 필요합니다.");
@@ -37,8 +38,13 @@ while ($row = mysqli_fetch_assoc($result)) {
     $cupon['price'][] = str_replace(',', '', $row['price']);
 }
 
-$point = str_replace(',', '', '20,000');
-
+$point_sql = "SELECT `tel`, `address`, `point` FROM `user` WHERE `userId`=" . $_SESSION['usr_id'];
+$result = mysqli_query($con, $point_sql);
+while ($row = mysqli_fetch_assoc($result)) {
+    $tel = $row['tel'];
+    $address = $row['address'];
+    $point = $row['point'];
+}
 
 ?>
 <!DOCTYPE html>
@@ -91,7 +97,10 @@ $point = str_replace(',', '', '20,000');
                     </div>
                 </div>
 
-                <form type="post">
+                <form method="post" >
+                    <input type="hidden" name="id" value="<?php echo $id; ?>">
+                    <input type="hidden" name="num" value="<?php echo $num; ?>">
+                    <input type="hidden" name="cupon[]">
 
                     <div class="card">
                         <div class="card-body text-left">
@@ -103,7 +112,7 @@ $point = str_replace(',', '', '20,000');
                                 </div>
 
                                 <div class="col-10 form-group">
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="peopleName" class="form-control" value="<?php echo $_SESSION['usr_name']; ?>" required>
                                 </div>
 
                                 <div class="col-2 p-2 text-secondary">
@@ -111,7 +120,7 @@ $point = str_replace(',', '', '20,000');
                                 </div>
 
                                 <div class="col-10 form-group">
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="addressName" class="form-control">
                                 </div>
 
                                 <div class="col-2 p-2">
@@ -119,7 +128,7 @@ $point = str_replace(',', '', '20,000');
                                 </div>
 
                                 <div class="col-10 form-group">
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="phone1" class="form-control" value="<?php echo $tel; ?>" required>
                                 </div>
 
                                 <div class="col-2 p-2 text-secondary">
@@ -127,7 +136,7 @@ $point = str_replace(',', '', '20,000');
                                 </div>
 
                                 <div class="col-10 form-group">
-                                    <input type="text" class="form-control">
+                                    <input type="text"  name="phone2" class="form-control">
                                 </div>
 
                                 <div class="col-2 p-2">
@@ -135,7 +144,7 @@ $point = str_replace(',', '', '20,000');
                                 </div>
 
                                 <div class="col-10 form-group">
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="address" class="form-control" value="<?php echo $address; ?>" required>
                                 </div>
 
                                 <div class="col-12"> <hr> </div>
@@ -144,7 +153,7 @@ $point = str_replace(',', '', '20,000');
                                 </div>
 
                                 <div class="col-10 form-group">
-                                    <textarea class="form-control"></textarea>
+                                    <textarea name="memo" class="form-control"></textarea>
                                 </div>
                             </div>
 
@@ -162,10 +171,10 @@ $point = str_replace(',', '', '20,000');
 
                                 <div class="col-9 form-group form-row" style="margin-right: 5px">
                                     <div class="col-6">
-                                        <input id="point" type="number" max="<?php echo $point; ?>" class="form-control">
+                                        <input id="point" name="point" type="number" min=0 max="<?php echo $point; ?>" class="form-control">
                                     </div>
                                     <div class="col-6">
-                                        <input type="text" class="form-control" value="20,000원" readonly>
+                                        <input type="text" class="form-control" value="<?php echo number_format($point) ?>원" readonly>
                                     </div>
                                 </div>
 
@@ -269,22 +278,54 @@ $point = str_replace(',', '', '20,000');
         var cuponPrice = 0;
         var pointPrice = 0;
 
+        $(document).ready(function() {
+            var allInputs = $('.form-control');
+            $(".form-control").not("#point").keydown(function(event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    var nextInput = allInputs.get(allInputs.index(this) + 1);
+                    if (nextInput) {
+                        nextInput.focus();
+                    }
+                }
+            });
+
+            $("#point").keydown(function(event) {
+                if (event.keyCode == 13) {
+
+                    if (Number($(this).val()) <= Number($(this).attr("max")))
+                        usePoint();
+                    event.preventDefault();
+                }
+            });
+
+        });
+
         function usePoint() {
             var point = $("#point");
 
-            pointPrice = Number(point.val());
-            updatePrice();
+            if (Number(point.val()) < (originalPrice - cuponPrice)) {
+                pointPrice = Number(point.val());
+                updatePrice();
+            } else {
+                pointPrice = originalPrice - cuponPrice;
+                point.val(pointPrice);
+                updatePrice();
+            }
         }
 
         function useCupon() {
             var nowCupon = $("#unusedCupon option:selected");
             if (nowCupon.length == 0) return;
 
-            $("#usedCupon").append("<option name=" + nowCupon.attr("name") + " price=" + nowCupon.attr("price") + ">" + nowCupon.text() + "</option>");
-            nowCupon.remove();
+            if (Number(nowCupon.attr("price")) <= (originalPrice - cuponPrice - pointPrice)) {
+                $("#usedCupon").append("<option name=" + nowCupon.attr("name") + " price=" + nowCupon.attr("price") + ">" + nowCupon.text() + "</option>");
+                nowCupon.remove();
 
-            cuponPrice += Number(nowCupon.attr("price"));
-            updatePrice();
+                cuponPrice += Number(nowCupon.attr("price"));
+                updatePrice();
+                updateCupon();
+            }
         }
 
         function delCupon() {
@@ -296,11 +337,17 @@ $point = str_replace(',', '', '20,000');
 
             cuponPrice -= Number(nowCupon.attr("price"));
             updatePrice();
+            updateCupon();
         }
 
         function updatePrice() {
             $("#discountPrice").text( cuponPrice + pointPrice + " 원");
             $("#totalPrice").text( originalPrice - (cuponPrice + pointPrice) + " 원");
+        }
+
+        function updateCupon() {
+            var values = $.map($('#usedCupon option'), function(e) { return e.value; });
+            $("input[name='cupon[]']").val(JSON.stringify(values));
         }
 
 
