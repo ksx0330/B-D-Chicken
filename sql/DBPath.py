@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-#ÃÖ»óÀ§ Æú´õºÎÅÍ ¸ğµç PHP ÆÈÀÇ dbconnect include¸¦ ¹Ù²ãÁÖ´Â ½ºÅ©¸³Æ®. 
-#Ã¹ ¹øÂ° ÀÎÀÚ: ÃÖ»óÀ§ °æ·Î(./WebProgramming)
-#µÎ ¹øÂ° ÀÎÀÚ: ¹Ù²Ü À§Ä¡(/home/ltaeng/Downloads/con/dbconnect.php)
+#ìµœìƒìœ„ í´ë”ë¶€í„° ëª¨ë“  PHP íŒ”ì˜ dbconnect includeë¥¼ ë°”ê¿”ì£¼ëŠ” ìŠ¤í¬ë¦½íŠ¸. 
+#ì²« ë²ˆì§¸ ì¸ì: ìµœìƒìœ„ ê²½ë¡œ(./WebProgramming)
+#ë‘ ë²ˆì§¸ ì¸ì: ë°”ê¿€ ìœ„ì¹˜(/home/ltaeng/Downloads/con/dbconnect.php)
 #ex) python3 DBPath.py ./WebProgramming /home/ltaeng/Downloads/con/dbconnect.php
 
 import sys, os

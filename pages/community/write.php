@@ -1,9 +1,11 @@
 ﻿<?php
 session_start();
-include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/sql/co_/dbconnect.php";
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
 $_SESSION['usr_id'] = 1;
 $_SESSION['usr_name'] = "조선주";
+
+$kind = $_GET['kind'];
 
 /*
 $URL = '././index.php';
@@ -20,7 +22,7 @@ if (!isset($_SESSION['usr_id'])){
 <html>
     <head>
     <?php include "../header.php"; ?>
-	
+
     </head>
 	<style>
 		table.table2{
@@ -32,7 +34,7 @@ if (!isset($_SESSION['usr_id'])){
 			margin : 20px 10px;
         }
         table.table2 tr {
-			width: 50px;	
+			width: 50px;
 			padding: 10px;
 			vertical-align: top;
 			border-bottom: 1px solid #ccc;
@@ -49,24 +51,9 @@ if (!isset($_SESSION['usr_id'])){
 			vertical-align: top;
 			border-bottom: 1px solid #ccc;
         }
-		.view_button1 {
-			font-size: 16px;
-			margin: 21px 7px;
-			transition-duration: 0.4s;
-			cursor: pointer;
-			border-radius: 13px;
-			padding: 6px 28px;
-			text-align: center;
-			background-color: #e7e7e7;
-			color: black;
-			border: 2px solid #e7e7e7;
-		}
-		.view_button1:hover {
-			background-color: white;
-		}
 	</style>
-	
-	
+
+
     <body>
     <?php include "../navbar.php"; ?>
 
@@ -74,12 +61,17 @@ if (!isset($_SESSION['usr_id'])){
   <div class="container-fluid" style="padding-left: 125px; padding-right: 125px; background-image: url('../../assets/images/background-2.png');">
 
    <div class="row">
-		
+
         <div class="col-lg-9">
 		  <div class="col-lg-12 mt-4">
             <div class="btn btn-yellow full_button">
                 <span class="huge_font" style="float: left; padding-left: 1.5rem;">
-                    공지 사항
+					<?php
+					if ($kind == 2)
+						echo '자유 게시판';
+					else
+						echo '공지 사항';
+					?>
                 </span>
             </div>
           </div>
@@ -88,9 +80,9 @@ if (!isset($_SESSION['usr_id'])){
                 <div class="card-body">
 			        <form method="post" action="write_action.php">
 			            <table class="table">
-				            <tr class="text-left">
+				            <tr>
 					            <td>작성자</td>
-					            <td><input class="form-control" type="hidden" name="id" value="<?=$_SESSION['usr_id']?>"><?=$_SESSION['usr_name']?></td>
+					            <td class="text-left"><input class="form-control" type="hidden" name="id" value="<?=$_SESSION['usr_id']?>"><?=$_SESSION['usr_name']?></td>
 				            </tr>
 				            <tr>
 					            <td>제목</td>
@@ -100,8 +92,9 @@ if (!isset($_SESSION['usr_id'])){
 				            <tr>
 					            <td>내용</td>
 					            <td><textarea class="form-control" name = "context" cols=85 rows=15></textarea></td>
-				            </tr>	
+				            </tr>
 			            </table>
+						<input type="hidden" name="kind" value="<?php echo $kind; ?>">
 			            <input class="btn btn-yellow btn-radius mx-1 my-2" type = "submit" value="작성">
                     </form>
 

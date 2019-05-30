@@ -1,6 +1,5 @@
 <?php
-include "/home/ltaeng/Downloads/con/dbconnect.php";
-
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,7 +25,7 @@ include "/home/ltaeng/Downloads/con/dbconnect.php";
                 <span class="huge_font" style="float: left; padding-left: 1.5rem;">
                     일반 메뉴 조회
                 </span>
-                <a href="./index.php" class="btn btn-lg btn-secondary text-left" style="float: right">
+                <a href="./index.php" class="btn btn-lg btn-secondary text-left text-white" style="float: right">
                     이 달의 추천 메뉴
                     <div style="padding-left: 20px; float: right;"><img src="../../assets/images/arrow.svg" width=30 height=30 /></div>
                 </a>

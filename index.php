@@ -1,6 +1,5 @@
 <?php
-include "/home/ltaeng/Downloads/con/dbconnect.php";
-
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -49,7 +48,7 @@ include "/home/ltaeng/Downloads/con/dbconnect.php";
                 <h4 class="mx-2 my-0"> | </h4>
             </li>
             <li class="nav-item">
-                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="./pages/community/">커뮤니티</a> </h4>
+                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="./pages/community/notice.php">커뮤니티</a> </h4>
             </li>
             <li class="nav-item">
                 <h4 class="mx-2 my-0"> | </h4>
