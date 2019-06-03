@@ -1,5 +1,5 @@
 <?php
-include "/home/ltaeng/Downloads/con/dbconnect.php";
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
 ?>
 <!DOCTYPE html>
@@ -43,7 +43,7 @@ include "/home/ltaeng/Downloads/con/dbconnect.php";
               <div class="card-body labelname" style="padding: 50px">
                 <form method="post" action="reg_action.php">
                   <input type="hidden" name="title" value="회원 가입 양식">
-                  <table style="margin: 50px 0px 50px 200px" border="0" width="50%" cellspacing="1" cellpadding="4" align="center">
+                  <table class="table" border="0" width="50%" cellspacing="1" cellpadding="4" align="center">
                     <tr>
                       <td align="right">이름<sup>*</sup></td>
                       <td><input type="text" class="form-control form-group" name="name" value=""></td>

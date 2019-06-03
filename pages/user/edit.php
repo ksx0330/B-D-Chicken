@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "/home/ltaeng/Downloads/con/dbconnect.php";
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
 $_SESSION['usr_id'] = 3;
 $_SESSION['name'] = '김득규';
