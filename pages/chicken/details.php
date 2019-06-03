@@ -47,7 +47,7 @@ if(!isset($_GET['id'])) {
                      <div class="card-body px-2">
                        <h1 class="card-title huge_font">'.$rows['title'].'</h3>
                        <h3 class="card-subtitle text-muted mt-1">'.$rows['price'].'원</h4>
-                       <h4 class="card-text mt-4">'.$rows['context'].'</p>
+                       <h4 class="card-text mt-4"><p>'.$rows['context'].'</p>
                        <div class="form-group row">
                          <form method="post" action="payment.php">
                            <input type="hidden" name="id" value="' . $_GET['id'] .'">
@@ -79,7 +79,7 @@ if(!isset($_GET['id'])) {
                                      </div>
                                      <div class="col-md-10">
                                          <p class="text-left col-md-12"><strong>'.$row['title'].'</strong></p>
-                                         <div class="clearfix text-left col-md-12"><p>'.$row['context'].'</p></div>
+                                         <div class="clearfix text-left col-md-12"><p>' . $row['context'] . '</p></div>
                                      </div>
                                  </div>
                          </div>

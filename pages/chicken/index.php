@@ -38,7 +38,7 @@ include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
           mysqli_query($con, "set session character_set_results=utf8;");
           mysqli_query($con, "set session character_set_client=utf8;");
 
-          $sql = "SELECT `ID`, `title`, `price`, `context`, (SELECT `url` FROM `item_images` WHERE `itemId` = `items`.`ID`) as `url` FROM `items` WHERE `rec` = 1";
+          $sql = "SELECT `ID`, `title`, `price`, `context`, (SELECT `url` FROM `item_images` WHERE `itemId` = `items`.`ID`) as `url` FROM `items` WHERE `rec` = 1 ORDER BY `ID` DESC";
           $result = mysqli_query($con, $sql);
 
           while ($row = mysqli_fetch_assoc($result)) {
