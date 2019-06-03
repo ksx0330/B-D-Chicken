@@ -45,12 +45,12 @@ include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
               echo '
               <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
-                  <a href="#"><img class="card-img-top" src="../../' . $row['url'] . '" alt=""></a>
+                  <a href="./details.php?id=' . $row['ID'] . '"><img class="card-img-top" src="../../' . $row['url'] . '" alt=""></a>
                   <div class="card-body">
                     <h4 class="card-title">
                       <a href="#">' . $row['title'] . '</a>
                     </h4>
-                    <h5>' . $row['price'] . '원</h5>
+                    <h5>' . number_format($row['price']) . '원</h5>
                     <p class="card-text">' . $row['context'] . '</p>
                   </div>
                   <div class="card-footer"></div>
