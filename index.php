@@ -168,7 +168,7 @@ mysqli_query($con, "set session character_set_client=utf8;");
                     </form>
                     <?php
                     } else {
-                    $user_sql = "SELECT `point`, (SELECT count(`ID`) FROM `baedal_list` WHERE `userId` = 1 AND `completeTime` is NULL) as 'baedalSize' FROM `user` WHERE `userId` = " . $_SESSION['usr_id'];
+                    $user_sql = "SELECT `point`, (SELECT count(`ID`) FROM `baedal_list` WHERE `userId` = " . $_SESSION['usr_id'] . " AND `completeTime` is NULL) as 'baedalSize' FROM `user` WHERE `userId` = " . $_SESSION['usr_id'];
 
                     $result = mysqli_query($con, $user_sql);
                     while ($row = mysqli_fetch_assoc($result)) {
