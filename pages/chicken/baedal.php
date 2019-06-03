@@ -93,8 +93,9 @@ while ($row = mysqli_fetch_assoc($result)) {
                     echo '
                     <div class="card">
                         <div class="card-body text-left">
-                            <img class="float-left" src="../../' . $baedal[$i]['url'] . '" width=220 height=120>
-
+                            <a href="./details.php?id=' . $baedal[$i]['itemId'] . '" .>
+                                <img class="float-left" src="../../' . $baedal[$i]['url'] . '" width=220 height=120>
+                            </a>
                             <div class="large_font float-left px-4" style="width: calc(100% - 220px)">
                                 <span class="btn btn-secondary float-right">
                                     ' . $baedal[$i]['isComplete'] . '

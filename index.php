@@ -268,8 +268,7 @@ include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
                             사이트 연결
                             <br>
                         </span>
-                        <div class="url_label"><img src="./assets/images/lck.png" style="width: 10rem; height: 5rem" /></div>
-                        <div class="url_label"><img src="./assets/images/kbo.png" style="width: 10rem; height: 5rem" /></div>
+                        <img src="./assets/images/sports.png" style="height: 11.5rem" onclick="window.open('./popup/sports.php', '_blank', 'width=523, height=530, toolbar=no, scrollbars=no, resizable=yes');">
                     </div>
                 </div>
             </div>
