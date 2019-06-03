@@ -50,10 +50,13 @@ while ($row = mysqli_fetch_assoc($result)) {
     }
 }
 
+if ($point == '')
+    $point = 0;
+
 $point_sql = "SELECT `point` FROM `user` WHERE `userId`=" . $_SESSION['usr_id'];
 $result = mysqli_query($con, $point_sql);
 while ($row = mysqli_fetch_assoc($result)) {
-    if ($point <= $row['point']) {
+    if ($point <= $point) {
         $price -= $point;
         $lastPoint = $row['point'] - $point;
     }
@@ -64,9 +67,9 @@ $usedCupon = json_encode($cuponVerified);
 $insert_sql = "INSERT INTO `baedal_list`(`userId`, `itemId`, `itemName`, `itemNum`, `peopleName`, `addressName`, `phone1`, `phone2`, `address`, `memo`, `usedCupon`, `usedPoint`, `price`) VALUES(" . $_SESSION['usr_id'] . ", $id, '$title', $num, '$peopleName', '$addressName', '$phone1', '$phone2', '$address', '$memo', '$usedCupon', $point, '$price')";
 $result = mysqli_query($con, $insert_sql);
 
+$lastPoint += $price / 10;
 $point_reduce_sql = "UPDATE `user` SET `point` = $lastPoint WHERE `user`.`userId` = " . $_SESSION['usr_id'];
 $result = mysqli_query($con, $point_reduce_sql);
-
 
 foreach ($cuponVerified as $c) {
     $cupon_reduce_sql = "DELETE FROM `cupon` WHERE `userId` = " . $_SESSION['usr_id'] . " AND `cupon`.`cuponId` = $c ";

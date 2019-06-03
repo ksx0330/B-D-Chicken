@@ -16,7 +16,7 @@ mysqli_query($con, "set session character_set_client=utf8;");
 
 $resultCnt = 0;
 
-$baedal_list_sql = "SELECT `ID`, `itemId`, `itemName`, `itemNum`, `peopleName`, `addressName`, `phone1`, `phone2`, `address`, `memo`, `usedCupon`, `usedPoint`, `price`, `orderedTime`, `completeTime`, (SELECT url FROM `item_images` WHERE `itemId` = `baedal_list`.`itemId`) as `url` FROM `baedal_list` WHERE `userId` = " . $_SESSION['usr_id'];
+$baedal_list_sql = "SELECT `ID`, `itemId`, `itemName`, `itemNum`, `peopleName`, `addressName`, `phone1`, `phone2`, `address`, `memo`, `usedCupon`, `usedPoint`, `price`, `orderedTime`, `completeTime`, (SELECT url FROM `item_images` WHERE `itemId` = `baedal_list`.`itemId`) as `url` FROM `baedal_list` WHERE `userId` = " . $_SESSION['usr_id'] . " ORDER BY `ID` DESC";
 $result = mysqli_query($con, $baedal_list_sql);
 while ($row = mysqli_fetch_assoc($result)) {
     $baedal[$resultCnt]['ID'] = $row['ID'];
