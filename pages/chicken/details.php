@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../../sql/connection/dbconnect.php";
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
 mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
@@ -50,6 +50,7 @@ if(!isset($_GET['id'])) {
                        <h4 class="card-text mt-4">'.$rows['context'].'</p>
                        <div class="form-group row">
                          <form method="post" action="payment.php">
+                           <input type="hidden" name="id" value="' . $_GET['id'] .'">
                            <input class="form-control col-6 ml-3" name="num" type="number" value="1" min="1">
                            <input class="btn btn-primary col-6 ml-3" type="submit" value="주문하기">
                          </form>
