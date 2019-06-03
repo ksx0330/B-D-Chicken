@@ -2,19 +2,28 @@
 session_start();
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
-$_SESSION['usr_id'] = 3;
-$_SESSION['name'] = '김득규';
-$_SESSION['email'] = 'emrrb44@naver.com';
-$_SESSION['password'] = 'asdf1234';
-$_SESSION['tel'] = '01112345678';
-$_SESSION['address'] = '경상북도 울릉군 울릉읍 독도리';
-
 if (!isset($_SESSION['usr_id'])) {
     echo '<script>
             alert("로그인이 필요합니다.");
             location.href = "../../index.php";
           </script>';
-  }
+}
+
+mysqli_query($con, "set session character_set_connection=utf8;");
+mysqli_query($con, "set session character_set_results=utf8;");
+mysqli_query($con, "set session character_set_client=utf8;");
+
+$user_sql = "SELECT `email`, `tel`, `address`, `point` FROM `user` WHERE `userId`=" . $_SESSION['usr_id'];
+$result = mysqli_query($con, $user_sql);
+while ($row = mysqli_fetch_assoc($result)) {
+    $email = $row['email'];
+    $tel = $row['tel'];
+    $address = $row['address'];
+    $point = $row['point'];
+}
+
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -53,7 +62,7 @@ if (!isset($_SESSION['usr_id'])) {
                     이름
                   </span>
                   <span class="col-5">
-                    <?=$_SESSION['name'] ?>
+                    <?=$_SESSION['usr_name'] ?>
                   </span>
                   <span class="col-2"></span>
 
@@ -62,7 +71,7 @@ if (!isset($_SESSION['usr_id'])) {
                     이메일
                   </span>
                   <span class="col-5">
-                    <?=$_SESSION['email'] ?>
+                    <?=$email ?>
                   </span>
                   <span class="col-2"></span>
 
@@ -71,7 +80,7 @@ if (!isset($_SESSION['usr_id'])) {
                     주소
                   </span>
                   <span class="col-5">
-                    <?=$_SESSION['address'] ?>
+                    <?=$address ?>
                   </span>
                   <span class="col-2"></span>
 
@@ -81,7 +90,7 @@ if (!isset($_SESSION['usr_id'])) {
                   </span>
                   <span class="col-5">
                     <?php
-                      $p = $_SESSION['tel'];
+                      $p = $tel;
                       $p1 = substr($p, 0, 3);
                       $p2 = substr($p, 3, 4);
                       $p3 = substr($p, 7, 4);

@@ -41,7 +41,7 @@ include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
           <div class="col-lg-12 col-md-6 mb-4">
             <div class="card h-100">
               <div class="card-body labelname" style="padding: 50px">
-                <form method="post" action="reg_action.php">
+                <form method="post" action="register_action.php">
                   <input type="hidden" name="title" value="회원 가입 양식">
                   <table class="table" border="0" width="50%" cellspacing="1" cellpadding="4" align="center">
                     <tr>

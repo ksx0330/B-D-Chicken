@@ -2,7 +2,6 @@
 session_start();
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
-$_SESSION['usr_id'] = 1;
 if (!isset($_SESSION['usr_id'])) {
     echo '<script>
             alert("로그인이 필요합니다.");

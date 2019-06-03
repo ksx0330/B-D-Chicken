@@ -2,7 +2,6 @@
 session_start();
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
-/*
 $URL = '././index.php';
 if (!isset($_SESSION['usr_id'])){
 	<script>
@@ -10,7 +9,6 @@ if (!isset($_SESSION['usr_id'])){
 	</script>
 	location.replace("<?php echo $URL ?>");
 }
-*/
 
 if (!isset($_POST['title']) || !isset($_POST['context']) || !isset($_POST['kind'])) {
 	echo '<script>

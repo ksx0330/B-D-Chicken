@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 ?>
 <!DOCTYPE html>

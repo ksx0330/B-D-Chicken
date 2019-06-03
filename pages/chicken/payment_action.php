@@ -67,7 +67,7 @@ $usedCupon = json_encode($cuponVerified);
 $insert_sql = "INSERT INTO `baedal_list`(`userId`, `itemId`, `itemName`, `itemNum`, `peopleName`, `addressName`, `phone1`, `phone2`, `address`, `memo`, `usedCupon`, `usedPoint`, `price`) VALUES(" . $_SESSION['usr_id'] . ", $id, '$title', $num, '$peopleName', '$addressName', '$phone1', '$phone2', '$address', '$memo', '$usedCupon', $point, '$price')";
 $result = mysqli_query($con, $insert_sql);
 
-$lastPoint += $price / 10;
+$lastPoint += $price / 100;
 $point_reduce_sql = "UPDATE `user` SET `point` = $lastPoint WHERE `user`.`userId` = " . $_SESSION['usr_id'];
 $result = mysqli_query($con, $point_reduce_sql);
 

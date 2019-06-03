@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
 mysqli_query($con, "set session character_set_connection=utf8;");
@@ -149,18 +150,57 @@ mysqli_query($con, "set session character_set_client=utf8;");
         <div class="container">
             <div class="card">
                 <div class="card-body">
+                    <?php
+
+                    if (!isset($_SESSION['usr_id'])) {
+                    ?>
                     <div class="text-center">
                         <img src="./assets/images/Text_Logo.svg" height=100 class="img_top" style="width: 5rem;" />
                         <img src="./assets/images/Chicken_Logo.svg" height=150 style="width: 7rem;" />
                     </div>
                     <h5 class="card-title">로그인</h5>
-                    <form>
+                    <form method="POST" action="./pages/user/login.php">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="이메일" id="staticEmail" >
-                            <input type="password" class="form-control" placeholder="패스워드" id="inputPassword">
+                            <input type="text" class="form-control" placeholder="이메일" name="email" >
+                            <input type="password" class="form-control" placeholder="패스워드" name="password">
                         </div>
                         <button type="submit" class="btn btn-primary form-control">로그인</button>
                     </form>
+                    <?php
+                    } else {
+                    $user_sql = "SELECT `point`, (SELECT count(`ID`) FROM `baedal_list` WHERE `userId` = 1 AND `completeTime` is NULL) as 'baedalSize' FROM `user` WHERE `userId` = " . $_SESSION['usr_id'];
+
+                    $result = mysqli_query($con, $user_sql);
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $point = $row['point'];
+                        $baedalSize = $row['baedalSize'];
+                    }
+
+                    ?>
+                    <h5 class="text-title">회원정보</h5>
+                    <div class="card m-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6 form-group">이름</div>
+                                <div class="col-6"><?php echo $_SESSION['usr_name']; ?></div>
+
+                                <div class="col-6">포인트</div>
+                                <div class="col-6"><?php echo $point; ?></div>
+
+                                <div class="col-6">배송중</div>
+                                <div class="col-6"><?php echo $baedalSize; ?> 건</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <a class="btn btn-secondary full_button text-white" href="./pages/user/profile.php">내 정보</a>
+                    <div class="text-right my-1">
+                        <a href="./pages/user/logout.php">로그아웃</a>
+                    </div>
+                    <?php
+                    }
+
+                    ?>
                   </div>
                 </div>
 

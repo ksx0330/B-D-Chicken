@@ -2,21 +2,17 @@
 session_start();
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
-$_SESSION['usr_id'] = 1;
-$_SESSION['usr_name'] = "조선주";
+$kind = mysqli_real_escape_string($con, $_GET['kind']);
 
-$kind = $_GET['kind'];
-
-/*
 $URL = '././index.php';
 if (!isset($_SESSION['usr_id'])){
+?>
 	<script>
 		alert("로그인이 필요합니다.");
+        location.replace("<?php echo $URL ?>");
 	</script>
-	location.replace("<?php echo $URL ?>");
-?>
+<?php
 }
-*/
 ?>
 <!DOCTYPE html>
 <html>
