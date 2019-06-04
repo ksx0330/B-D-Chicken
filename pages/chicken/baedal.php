@@ -13,9 +13,24 @@ mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
 mysqli_query($con, "set session character_set_client=utf8;");
 
+$role_sql = "SELECT `role` FROM `authorities` WHERE `userId` = " . $_SESSION['usr_id'];
+$result = mysqli_query($con, $role_sql);
+while ($row = mysqli_fetch_assoc($result))
+    $auth[] = $row['role'];
+
+if (in_array("IS_ADMIN", $auth))
+    $isAdmin = true;
+else
+    $isAdmin = false;
+
 $resultCnt = 0;
 
-$baedal_list_sql = "SELECT `ID`, `itemId`, `itemName`, `itemNum`, `peopleName`, `addressName`, `phone1`, `phone2`, `address`, `memo`, `usedCupon`, `usedPoint`, `price`, `orderedTime`, `completeTime`, (SELECT url FROM `item_images` WHERE `itemId` = `baedal_list`.`itemId`) as `url` FROM `baedal_list` WHERE `userId` = " . $_SESSION['usr_id'] . " ORDER BY `ID` DESC";
+$baedal_list_sql = "SELECT `ID`, `itemId`, `itemName`, `itemNum`, `peopleName`, `addressName`, `phone1`, `phone2`, `address`, `memo`, `usedCupon`, `usedPoint`, `price`, `orderedTime`, `baedal`, `completeTime`, (SELECT url FROM `item_images` WHERE `itemId` = `baedal_list`.`itemId`) as `url` FROM `baedal_list`";
+
+if (!$isAdmin)
+    $baedal_list_sql .= " WHERE `userId` = " . $_SESSION['usr_id'];
+$baedal_list_sql .= " ORDER BY `ID` DESC";
+
 $result = mysqli_query($con, $baedal_list_sql);
 while ($row = mysqli_fetch_assoc($result)) {
     $baedal[$resultCnt]['ID'] = $row['ID'];
@@ -32,13 +47,20 @@ while ($row = mysqli_fetch_assoc($result)) {
     $baedal[$resultCnt]['usedPoint'] = $row['usedPoint'];
     $baedal[$resultCnt]['price'] = $row['price'];
     $baedal[$resultCnt]['orderedTime'] = $row['orderedTime'];
+    $baedal[$resultCnt]['baedal'] = $row['baedal'];
     $baedal[$resultCnt]['completeTime'] = $row['completeTime'];
     $baedal[$resultCnt]['url'] = $row['url'];
 
-    if ($baedal[$resultCnt]['completeTime'] == NULL)
-        $baedal[$resultCnt]['isComplete'] = '배달중 ~';
-    else
-        $baedal[$resultCnt]['isComplete'] = $baedal[$resultCnt]['completeTime'];
+    if ($baedal[$resultCnt]['baedal'] == 0 && $baedal[$resultCnt]['completeTime'] == NULL) {
+        $baedal[$resultCnt]['isComplete'][1] = 'btn-yellow';
+        $baedal[$resultCnt]['isComplete'][0] = '주문 완료!';
+    } else if ($baedal[$resultCnt]['completeTime'] == NULL) {
+        $baedal[$resultCnt]['isComplete'][1] = 'btn-secondary';
+        $baedal[$resultCnt]['isComplete'][0] = '배달 중 ~';
+    } else {
+        $baedal[$resultCnt]['isComplete'][1] = 'btn-success';
+        $baedal[$resultCnt]['isComplete'][0] = '배달 완료';
+    }
 
     $cuponCnt = 0;
     $cupon_list = json_decode($row['usedCupon']);
@@ -96,8 +118,8 @@ while ($row = mysqli_fetch_assoc($result)) {
                                 <img class="float-left" src="../../' . $baedal[$i]['url'] . '" width=220 height=120>
                             </a>
                             <div class="large_font float-left px-4" style="width: calc(100% - 220px)">
-                                <span class="btn btn-secondary float-right">
-                                    ' . $baedal[$i]['isComplete'] . '
+                                <span id="phase' . $baedal[$i]['ID'] . '" class="btn ' . $baedal[$i]['isComplete'][1] . ' float-right" onclick="nextPhase(' . $baedal[$i]['ID'] . ')">
+                                    ' . $baedal[$i]['isComplete'][0] . '
                                 </span>
 
                                 <div>
@@ -218,6 +240,32 @@ while ($row = mysqli_fetch_assoc($result)) {
   <!-- /.container -->
 
   <?php include "../footer.php"; ?>
+
+    <?php
+    if ($isAdmin) {
+    ?>
+    <script>
+	function nextPhase(id) {
+		$.ajax({
+			type: "POST",
+            dataType: 'json',
+			url: './baedal_next.php',
+			data: {
+                id: id
+            },
+			success: function(response) {
+		    	$("#phase" + id).removeClass(response[0][0]);
+                $("#phase" + id).addClass(response[1][0]);
+                $("#phase" + id).text(response[1][1])
+			}
+		});
+		return false;
+	}
+
+    </script>
+    <?php
+    }
+    ?>
 
     </body>
 </html>
