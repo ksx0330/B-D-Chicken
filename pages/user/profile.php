@@ -1,19 +1,6 @@
 <?php
 session_start();
-<<<<<<< HEAD
-//include "/home/ltaeng/Downloads/con/dbconnect.php";
-include "../../sql/connection/dbconnect.php";
-
-$_SESSION['usr_id'] = 3;
-$_SESSION['name'] = '김득규';
-$_SESSION['email'] = 'emrrb44@naver.com';
-$_SESSION['password'] = 'asdf1234';
-$_SESSION['tel'] = '01112345678';
-$_SESSION['address'] = '경상북도 울릉군 울릉읍 독도리';
-$_SESSION['point'] = 200;
-=======
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
->>>>>>> upstream/master
 
 if (!isset($_SESSION['usr_id'])) {
     echo '<script>
