@@ -1,15 +1,27 @@
 <?php
 session_start();
-//include "/home/ltaeng/Downloads/con/dbconnect.php";
-include "../../sql/connection/dbconnect.php";
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
-$_SESSION['usr_id'] = 12;
 if (!isset($_SESSION['usr_id'])) {
   echo '<script>
   alert("로그인이 필요합니다.");
   location.href = "../../index.php";
   </script>';
 }
+
+mysqli_query($con, "set session character_set_connection=utf8;");
+mysqli_query($con, "set session character_set_results=utf8;");
+mysqli_query($con, "set session character_set_client=utf8;");
+
+$user_sql = "SELECT `email`, `tel`, `address`, `point` FROM `user` WHERE `userId`=" . $_SESSION['usr_id'];
+$result = mysqli_query($con, $user_sql);
+while ($row = mysqli_fetch_assoc($result)) {
+    $email = $row['email'];
+    $p = $row['tel'];
+    $address = $row['address'];
+    $point = $row['point'];
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -50,7 +62,7 @@ if (!isset($_SESSION['usr_id'])) {
                     </span>
                     <span class="col-5">
                       <?php
-                        $name = $_SESSION['name'];
+                        $name = $_SESSION['usr_name'];
                         echo "<input type='text' class='form-control' name='user_name' value='$name'>";
                       ?>
                     </span>
@@ -62,7 +74,6 @@ if (!isset($_SESSION['usr_id'])) {
                     </span>
                     <span class="col-5">
                       <?php
-                        $email = $_SESSION['email'];
                         echo "<input type='text' class='form-control' name='user_email' value='$email' disabled>";
                       ?>
                     </span>
@@ -74,8 +85,7 @@ if (!isset($_SESSION['usr_id'])) {
                     </span>
                     <span class="col-5">
                       <?php
-                        $addr = $_SESSION['address'];
-                        echo "<input type='text' class='form-control' name='user_addr' value='$addr'>";
+                        echo "<input type='text' class='form-control' name='user_addr' value='$address'>";
                       ?>
                     </span>
                     <span class="col-2"></span>
@@ -86,25 +96,12 @@ if (!isset($_SESSION['usr_id'])) {
                     </span>
                     <span class="col-5">
                       <?php
-                        $p = $_SESSION['tel'];
                         $p1 = substr($p, 0, 3);
                         $p2 = substr($p, 3, 4);
                         $p3 = substr($p, 7, 4);
                         $tel = $p1 . "-" . $p2 . "-" . $p3;
 
                         echo "<input type='text' class='form-control' name='user_tel' value='$tel'>";
-                      ?>
-                    </span>
-                    <span class="col-2"></span>
-
-                    <span class="col-2 my-5"></span>
-                    <span class="col-3 text-right">
-                      포인트
-                    </span>
-                    <span class="col-5">
-                      <?php
-                        $point = $_SESSION['point'];
-                        echo "<input type='text' class='form-control' name='user_point' value='$point' disabled>";
                       ?>
                     </span>
                     <span class="col-2"></span>
