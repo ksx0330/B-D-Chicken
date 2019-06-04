@@ -1,5 +1,6 @@
 <?php
-include "/home/ltaeng/Downloads/con/dbconnect.php";
+//include "/home/ltaeng/Downloads/con/dbconnect.php";
+include "../../sql/connection/dbconnect.php";
 
 ?>
 <!DOCTYPE html>
@@ -49,7 +50,7 @@ include "/home/ltaeng/Downloads/con/dbconnect.php";
                       echo "비밀번호가 일치하지 않습니다. 다시 입력해주세요.";
                     }
                     else {
-                      $sql = "INSERT INTO user VALUES(NULL, '$name', '$email', '$passwd', '$tel', '$address');";
+                      $sql = "INSERT INTO user VALUES(NULL, '$name', '$email', '$passwd', '$tel', '$address', 0);";
                       mysqli_query($con, "set session character_set_connection=utf8;");
                       mysqli_query($con, "set session character_set_results=utf8;");
                       mysqli_query($con, "set session character_set_client=utf8;");
@@ -57,7 +58,20 @@ include "/home/ltaeng/Downloads/con/dbconnect.php";
                       $result = $con->query($sql);
 
                       if ($result) {
-                        echo "성공적으로 회원가입이 완료되었습니다.<br>";
+                        $sql = "SELECT userId FROM user WHERE name='$name';";
+                        $res = $con->query($sql);
+
+                        $row = mysqli_fetch_array($res);
+                        $userId = $row['userId'];
+                        $sql = "INSERT INTO authorities VALUES(NULL, $userId, 'IS_USER');";
+
+                        $res = $con->query($sql);
+                        if ($res) {
+                          echo "성공적으로 가입되었습니다!<br>";
+                        }
+                        else {
+                          echo "오류가 발생하였습니다.<br>";
+                        }
                       }
                       else {
                         echo "잘못 입력하셨습니다.<br>";

@@ -1,5 +1,13 @@
 <?php
-include "/home/ltaeng/Downloads/con/dbconnect.php";
+session_start();
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+
+if (isset($_SESSION['usr_id'])) {
+    echo '<script>
+            alert("로그아웃을 먼저 해주세요.");
+            location.href = "../../index.php";
+          </script>';
+}
 
 ?>
 <!DOCTYPE html>
@@ -41,9 +49,9 @@ include "/home/ltaeng/Downloads/con/dbconnect.php";
           <div class="col-lg-12 col-md-6 mb-4">
             <div class="card h-100">
               <div class="card-body labelname" style="padding: 50px">
-                <form method="post" action="reg_action.php">
+                <form method="post" action="register_action.php">
                   <input type="hidden" name="title" value="회원 가입 양식">
-                  <table style="margin: 50px 0px 50px 200px" border="0" width="50%" cellspacing="1" cellpadding="4" align="center">
+                  <table class="table" border="0" width="50%" cellspacing="1" cellpadding="4" align="center">
                     <tr>
                       <td align="right">이름<sup>*</sup></td>
                       <td><input type="text" class="form-control form-group" name="name" value=""></td>

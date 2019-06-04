@@ -1,5 +1,6 @@
 <?php
-include "/home/ltaeng/Downloads/con/dbconnect.php";
+//include "/home/ltaeng/Downloads/con/dbconnect.php";
+include "../../sql/connection/dbconnect.php";
 
 ?>
 <!DOCTYPE html>

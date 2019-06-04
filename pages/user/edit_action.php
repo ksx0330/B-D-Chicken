@@ -1,7 +1,16 @@
 <?php
+session_start();
 //include "/home/ltaeng/Downloads/con/dbconnect.php";
 include "../../sql/connection/dbconnect.php";
 
+$_SESSION['usr_id'] = 12;
+
+if (!isset($_SESSION['usr_id'])) {
+  echo '<script>
+  alert("로그인이 필요합니다.");
+  location.href = "../../index.php";
+  </script>';
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,38 +34,35 @@ include "../../sql/connection/dbconnect.php";
           <div class="col-lg-12 mt-4">
             <div class="btn btn-yellow full_button">
               <span class="huge_font" style="float: left; padding-left: 1.5rem;">
-                비밀번호 찾기
+                프로필 수정
               </span>
 
             </div>
           </div>
 
           <div class="col-lg-12 col-md-6 mb-4">
-            <div class="card h-100">
+            <div class="card h-100 p-5">
               <div clas="card-body">
-                <div class="large_font p-5">
-                  <?php
-                    $name = $_POST["user_name"];
-                    $email = $_POST["user_email"];
-                    $tel = $_POST["user_tel"];
+                <?php
+                  $userId = $_SESSION["usr_id"];
+                  $name = $_POST["user_name"];
+                  $addr = $_POST["user_addr"];
+                  $tel = $_POST["user_tel"];
 
-                    $sql = "SELECT password FROM user WHERE name='$name' AND tel='$tel' AND email='$email';";
-                    mysqli_query($con, "set session character_set_connection=utf8;");
-                    mysqli_query($con, "set session character_set_results=utf8;");
-                    mysqli_query($con, "set session character_set_client=utf8;");
+                  $sql = "UPDATE user SET name='$name', address='$addr', tel='$tel' WHERE userId=$userId;";
+                  mysqli_query($con, "set session character_set_connection=utf8;");
+                  mysqli_query($con, "set session character_set_results=utf8;");
+                  mysqli_query($con, "set session character_set_client=utf8;");
 
-                    $result = $con->query($sql);
-                    $row = mysqli_fetch_assoc($result);
+                  $result = mysqli_query($con, $sql);
 
-                    if (!$row["password"]) {
-                      echo "잘못 입력하셨습니다.<br>";
-                    }
-                    else {
-                      echo "당신의 비밀번호는 " . "<span style=\"color: red;\">" . $row["password"] . "</span> 입니다.<br>";
-                    }
-                  ?>
-                </div>
-
+                  if (!$result) {
+                    echo "처리 중 오류가 발생하였습니다.<br>";
+                  }
+                  else {
+                    echo "정보가 성공적으로 수정되었습니다.<br>";
+                  }
+                ?>
               </div>
 
               <!--<div class="card-footer"></div>-->

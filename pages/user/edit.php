@@ -1,13 +1,9 @@
 <?php
 session_start();
-include "/home/ltaeng/Downloads/con/dbconnect.php";
+//include "/home/ltaeng/Downloads/con/dbconnect.php";
+include "../../sql/connection/dbconnect.php";
 
-$_SESSION['usr_id'] = 3;
-$_SESSION['name'] = '김득규';
-$_SESSION['email'] = 'emrrb44@naver.com';
-$_SESSION['password'] = 'asdf1234';
-$_SESSION['tel'] = '01112345678';
-$_SESSION['address'] = '경상북도 울릉군 울릉읍 독도리';
+$_SESSION['usr_id'] = 12;
 
 if (!isset($_SESSION['usr_id'])) {
   echo '<script>
@@ -98,6 +94,18 @@ if (!isset($_SESSION['usr_id'])) {
                         $tel = $p1 . "-" . $p2 . "-" . $p3;
 
                         echo "<input type='text' class='form-control' name='user_tel' value='$tel'>";
+                      ?>
+                    </span>
+                    <span class="col-2"></span>
+
+                    <span class="col-2 my-5"></span>
+                    <span class="col-3 text-right">
+                      포인트
+                    </span>
+                    <span class="col-5">
+                      <?php
+                        $point = $_SESSION['point'];
+                        echo "<input type='text' class='form-control' name='user_point' value='$point' disabled>";
                       ?>
                     </span>
                     <span class="col-2"></span>
