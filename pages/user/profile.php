@@ -99,6 +99,15 @@ while ($row = mysqli_fetch_assoc($result)) {
                     ?>
                   </span>
                   <span class="col-2"></span>
+
+                  <span class="col-2 my-5"></span>
+                  <span class="col-3 text-right">
+                    포인트
+                  </span>
+                  <span class="col-5">
+                    <?=$point ?>
+                  </span>
+                  <span class="col-2"></span>
                 </div>
 
                 <a href="./edit.php">

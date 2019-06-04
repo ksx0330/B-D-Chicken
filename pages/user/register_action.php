@@ -66,7 +66,7 @@ if (!$error) {
 
     $URL = '../../index.php';
     if($result_user and $result_role){
-    ?>		
+    ?>
 	    <script>
 		    alert("<?php echo"회원가입이 완료되었습니다!"?>");
 		    location.replace("<?php echo $URL ?>");

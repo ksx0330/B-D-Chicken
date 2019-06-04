@@ -78,7 +78,7 @@ foreach ($cuponVerified as $c) {
 
 $URL = './baedal.php';
 if($result){
-?>		
+?>
 	<script>
 		alert("<?php echo"주문이 완료되었습니다!"?>");
 		location.replace("<?php echo $URL ?>");
