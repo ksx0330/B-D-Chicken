@@ -1,9 +1,7 @@
 <?php
 session_start();
-//include "/home/ltaeng/Downloads/con/dbconnect.php";
+//include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 include "../../sql/connection/dbconnect.php";
-
-$_SESSION['usr_id'] = 12;
 
 if (!isset($_SESSION['usr_id'])) {
   echo '<script>
@@ -11,6 +9,20 @@ if (!isset($_SESSION['usr_id'])) {
   location.href = "../../index.php";
   </script>';
 }
+
+mysqli_query($con, "set session character_set_connection=utf8;");
+mysqli_query($con, "set session character_set_results=utf8;");
+mysqli_query($con, "set session character_set_client=utf8;");
+
+$user_sql = "SELECT `email`, `tel`, `address`, `point` FROM `user` WHERE `userId`=" . $_SESSION['usr_id'];
+$result = mysqli_query($con, $user_sql);
+while ($row = mysqli_fetch_assoc($result)) {
+    $email = $row['email'];
+    $p = $row['tel'];
+    $address = $row['address'];
+    $point = $row['point'];
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -44,12 +56,11 @@ if (!isset($_SESSION['usr_id'])) {
             <div class="card h-100 p-5">
               <div clas="card-body">
                 <?php
-                  $userId = $_SESSION["usr_id"];
                   $name = $_POST["user_name"];
                   $addr = $_POST["user_addr"];
                   $tel = $_POST["user_tel"];
 
-                  $sql = "UPDATE user SET name='$name', address='$addr', tel='$tel' WHERE userId=$userId;";
+                  $sql = "UPDATE `user` SET `name`='$name', `address`='$addr', `tel`='$tel' WHERE `userId`=" . $_SESSION['usr_id'];
                   mysqli_query($con, "set session character_set_connection=utf8;");
                   mysqli_query($con, "set session character_set_results=utf8;");
                   mysqli_query($con, "set session character_set_client=utf8;");
