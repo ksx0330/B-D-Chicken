@@ -14,9 +14,25 @@ $kind = mysqli_real_escape_string($con, $_GET['kind']);
 
 if ($kind == 2)
 	$community = "free";
-else
+elseif ($kind == 3)
+	$community = "question";
+else {
 	$community = "notice";
+	$kind = 1;
+}
 $URL = './notice.php?kind=' . $kind;
+
+$query = "SELECT `userId` FROM $community WHERE `userId` = $_SESSION[usr_id]";				          
+$result = $con->query($query);
+$rows = mysqli_fetch_row($result);
+
+if($rows[0] != $_SESSION['usr_id']){
+	echo '<script>
+		alert("본인이 작성한 정보만 수정이 가능합니다.");
+		history.back();
+	</script>';
+	exit();
+}
 
 $query = "DELETE FROM `$community` WHERE `$community`.`ID` = '$ID'";
 $result = $con->query($query);

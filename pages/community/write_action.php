@@ -35,9 +35,12 @@ $time = date('Y-m-d H:i:s');
 
 if ($kind == 2)
 	$community = "free";
-else
+elseif ($kind == 3)
+	$community = "question";
+else {
 	$community = "notice";
-
+	$kind = 1;
+}
 
 $URL = './notice.php?kind=' . $kind;
 
@@ -63,6 +66,4 @@ else{
 	echo "FAIL! " . mysqli_error($con);
 }
 mysqli_close($con);
-?>
-*/
 ?>

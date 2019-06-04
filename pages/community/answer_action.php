@@ -7,7 +7,15 @@ if (!isset($_SESSION['usr_id'])){
 	header("location: ../user/login.php");
 }
 
-if (trim(preg_replace('/\r\n|\r|\n/','', $_POST['title'])) == '' || trim(preg_replace('/\r\n|\r|\n/','', $_POST['context'])) == '') {
+if (!isset($_POST['answer'])) {
+	echo '<script>
+	alert("잘못된 접근입니다.");
+	history.back();
+	</script>';
+	exit();
+}
+
+if (trim(preg_replace('/\r\n|\r|\n/','', $_POST['answer'])) == '') {
 	echo '<script>
 	alert("입력값을 다 채워주시길 바랍니다.");
 	history.back();
@@ -15,28 +23,18 @@ if (trim(preg_replace('/\r\n|\r|\n/','', $_POST['title'])) == '' || trim(preg_re
 	exit();
 }
 
-$title = mysqli_real_escape_string($con, $_POST['title']);
-$context = mysqli_real_escape_string($con, $_POST['context']);
-$ID = mysqli_real_escape_string($con, $_POST['ID']);
+$answer = mysqli_real_escape_string($con, $_POST['answer']);
 $kind = mysqli_real_escape_string($con, $_POST['kind']);
+$ID = mysqli_real_escape_string($con, $_POST['ID']);
 $time = date('Y-m-d H:i:s');
 
-if ($kind == 2)
-	$community = "free";
-elseif ($kind == 3){
-	$community = "question";
-}
-else {
-	$community = "notice";
-	$kind = 1;
-}
 $URL = './notice.php?kind=' . $kind;
 
 mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
 mysqli_query($con, "set session character_set_client=utf8;");
 
-$query = "UPDATE $community SET title = '$title', context = '$context', time = '$time' WHERE $community.ID = '$ID'";
+$query = "UPDATE `question` SET `answer` = '$answer' WHERE `question`.`ID` = $ID";
 $result = $con->query($query);
 
 if($result){

@@ -6,10 +6,17 @@ $kind = mysqli_real_escape_string($con, $_GET['kind']);
 
 if ($kind == 2)
 	$community = "free";
+elseif ($kind == 3)
+	$community = "question";
 else {
 	$community = "notice";
 	$kind = 1;
 }
+
+$role_sql = "SELECT `role` FROM `authorities` WHERE `userId` = " . $_SESSION['usr_id'];
+$result = mysqli_query($con, $role_sql);
+while ($row = mysqli_fetch_assoc($result))
+	$auth[] = $row['role'];
 
 ?>
 <!DOCTYPE html>
@@ -32,11 +39,13 @@ else {
             <div class="btn btn-yellow full_button">
                 <span class="huge_font" style="float: left; padding-left: 1.5rem;">
 					<?php
-					if ($community == 'notice')
-						echo '공지 사항';
+					if ($community == 'question')
+						echo 'Q&A';
 					else if ($community == 'free')
 						echo '자유 게시판';
-					?>			
+					else
+						echo '공지 사항';
+					?>		
                 </span>
 				
 				<div class="dropdown" style="float: right">
@@ -62,34 +71,62 @@ else {
 				                <td width = "100" align = "center">작성자</td>
 				                <td width = "200" align = "center">날짜</td>
 				                <td width = "70" align = "center">조회수</td>
+								<?php 
+									if($kind == 3)
+										echo '<td width = "70" align = "center">답변여부</td>';
+								?>
 			                </tr>
 			            </thead>
 			            <tbody>
 			            <?php
 				            mysqli_query($con, "set session character_set_results=utf8;");
-				            $query = "SELECT `ID`, `userId`, `title`, `context`, `time`, `hit`, (SELECT `name` FROM `user` WHERE `userId` = `$community`.`userId`) as `name` FROM `$community` ORDER BY `ID` DESC";
-				            $result = mysqli_query($con, $query);
+				            if($kind == 3)
+								$query = "SELECT `ID`, `userId`, `title`, `time`, `hit`, `answer`, (SELECT `name` FROM `user` WHERE `userId` = `$community`.`userId`) as `name` FROM `$community` ORDER BY `ID` DESC";
+							else
+								$query = "SELECT `ID`, `userId`, `title`, `time`, `hit`, (SELECT `name` FROM `user` WHERE `userId` = `$community`.`userId`) as `name` FROM `$community` ORDER BY `ID` DESC";
+							
+							$result = mysqli_query($con, $query);
 
 				            while($rows = mysqli_fetch_assoc($result)){
-
-                                echo '
-                                <tr>
-					                <td width = "50" align = "center">' . $rows['ID'] . '</td>
-					                <td width = "500" align = "center">
-						                <a href = "view.php?ID=' . $rows['ID'] . '&kind=' . $kind . '">
-						                ' . $rows['title'] . '
-					                </td>
-					                <td width = "100" align = "center">' . $rows['name'] . ' </td>	
-					                <td width = "200" align = "center">' . $rows['time'] . ' </td>	
-					                <td width = "50" align = "center">' . $rows['hit'] . ' </td>
-					            </tr>';
-                                
+								if($kind == 3){
+									if($rows['answer'] == null)
+										$answer = '미답변';
+									
+									else
+										$answer = '답변완료';
+									
+									echo '<tr>
+										<td width = "50" align = "center">' . $rows['ID'] . '</td>
+										<td width = "500" align = "center">
+											<a href = "Q&A_view.php?ID=' . $rows['ID'] . '&kind=' . $kind . '">
+											' . $rows['title'] . '
+										</td>
+										<td width = "100" align = "center">' . $rows['name'] . ' </td>	
+										<td width = "200" align = "center">' . $rows['time'] . ' </td>	
+										<td width = "50" align = "center">' . $rows['hit'] . ' </td>
+										<td width = "50" align = "center">' . $answer . ' </td>
+									</tr>';										
+								}
+								else{
+									echo '<tr>
+										<td width = "50" align = "center">' . $rows['ID'] . '</td>
+										<td width = "500" align = "center">
+											<a href = "view.php?ID=' . $rows['ID'] . '&kind=' . $kind . '">
+											' . $rows['title'] . '
+										</td>
+										<td width = "100" align = "center">' . $rows['name'] . ' </td>	
+										<td width = "200" align = "center">' . $rows['time'] . ' </td>	
+										<td width = "50" align = "center">' . $rows['hit'] . ' </td>
+									</tr>';
+								}
 				            }
 			            ?>
 			            </tbody>
 			        </table>
-			        
-			        <a href='./write.php?kind=<?php echo $kind; ?>'>글쓰기</a>
+                    <?php
+                    if (in_array("IS_ADMIN", $auth))
+                        echo "<a href='./write.php?kind=<?php echo $kind; ?>'>글쓰기</a>";
+                    ?>
 
                 </div>
             </div>
