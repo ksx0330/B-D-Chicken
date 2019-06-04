@@ -64,19 +64,25 @@ while ($row = mysqli_fetch_assoc($result)) {
 
     $cuponCnt = 0;
     $cupon_list = json_decode($row['usedCupon']);
-    foreach ($cupon_list as $c) {
-        $cupon_sql = "SELECT `name`, `price` FROM `cupon_list` WHERE `ID` = " . $c;
-        $cupon_result = mysqli_query($con, $cupon_sql);
-        while ($cupon_row = mysqli_fetch_assoc($cupon_result)) {
-            $baedal[$resultCnt]['cupon'][$cuponCnt][0] = $cupon_row['name'];
-            $baedal[$resultCnt]['cupon'][$cuponCnt][1] = $cupon_row['price'];
+    if (empty($cupon_list)) $baedal[$resultCnt]['cupon'] = [];
+    else {
+        foreach ($cupon_list as $c) {
+            $cupon_sql = "SELECT `name`, `price` FROM `cupon_list` WHERE `ID` = " . $c;
+            $cupon_result = mysqli_query($con, $cupon_sql);
+            while ($cupon_row = mysqli_fetch_assoc($cupon_result)) {
+                $baedal[$resultCnt]['cupon'][$cuponCnt][0] = $cupon_row['name'];
+                $baedal[$resultCnt]['cupon'][$cuponCnt][1] = $cupon_row['price'];
 
-            $cuponCnt++;
+                $cuponCnt++;
+            }
         }
     }
 
     $resultCnt++;
 }
+
+if (empty($baedal))
+  $baedal = [];
 
 
 ?>

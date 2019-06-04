@@ -27,7 +27,11 @@ while ($row = mysqli_fetch_assoc($result)) {
 <html>
 <head>
   <?php include "../header.php"; ?>
-
+  <style>
+  sup {
+    color: #efc970;
+  }
+  </style>
 </head>
 <body>
   <?php include "../navbar.php"; ?>
@@ -58,7 +62,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                   <div class="large_font row align-items-center">
                     <span class="col-2 my-5"></span>
                     <span class="col-3 text-right">
-                      이름
+                      이름<sup>*</sup>
                     </span>
                     <span class="col-5">
                       <?php
@@ -70,11 +74,44 @@ while ($row = mysqli_fetch_assoc($result)) {
 
                     <span class="col-2 my-5"></span>
                     <span class="col-3 text-right">
-                      이메일
+                      이메일<sup>*</sup>
                     </span>
                     <span class="col-5">
                       <?php
                         echo "<input type='text' class='form-control' name='user_email' value='$email' disabled>";
+                      ?>
+                    </span>
+                    <span class="col-2"></span>
+
+                    <span class="col-2 my-5"></span>
+                    <span class="col-3 text-right">
+                      비밀번호<sup>*</sup>
+                    </span>
+                    <span class="col-5">
+                      <?php
+                        echo "<input type='password' class='form-control' name='user_pw' value=''>";
+                      ?>
+                    </span>
+                    <span class="col-2"></span>
+
+                    <span class="col-2 my-5"></span>
+                    <span class="col-3 text-right">
+                      비밀번호 수정
+                    </span>
+                    <span class="col-5">
+                      <?php
+                        echo "<input type='password' class='form-control' name='user_pwch' value=''>";
+                      ?>
+                    </span>
+                    <span class="col-2"></span>
+
+                    <span class="col-2 my-5"></span>
+                    <span class="col-3 text-right">
+                      비밀번호 수정 확인
+                    </span>
+                    <span class="col-5">
+                      <?php
+                        echo "<input type='password' class='form-control' name='user_pwch2' value=''>";
                       ?>
                     </span>
                     <span class="col-2"></span>
@@ -96,12 +133,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                     </span>
                     <span class="col-5">
                       <?php
-                        $p1 = substr($p, 0, 3);
-                        $p2 = substr($p, 3, 4);
-                        $p3 = substr($p, 7, 4);
-                        $tel = $p1 . "-" . $p2 . "-" . $p3;
-
-                        echo "<input type='text' class='form-control' name='user_tel' value='$tel'>";
+                        echo "<input type='text' class='form-control' name='user_tel' value='$p'>";
                       ?>
                     </span>
                     <span class="col-2"></span>

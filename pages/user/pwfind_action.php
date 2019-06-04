@@ -35,11 +35,11 @@ include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
               <div clas="card-body">
                 <div class="large_font p-5">
                   <?php
-                    $name = $_POST["user_name"];
-                    $email = $_POST["user_email"];
-                    $tel = $_POST["user_tel"];
+                    $name = mysqli_real_escape_string($con, $_POST["user_name"]);
+                    $email = mysqli_real_escape_string($con, $_POST["user_email"]);
+                    $tel = mysqli_real_escape_string($con, $_POST["user_tel"]);
 
-                    $sql = "SELECT password FROM user WHERE name='$name' AND tel='$tel' AND email='$email';";
+                    $sql = "SELECT `password` FROM `user` WHERE `name`='$name' AND `tel`='$tel' AND `email`='$email';";
                     mysqli_query($con, "set session character_set_connection=utf8;");
                     mysqli_query($con, "set session character_set_results=utf8;");
                     mysqli_query($con, "set session character_set_client=utf8;");
@@ -51,7 +51,22 @@ include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
                       echo "잘못 입력하셨습니다.<br>";
                     }
                     else {
-                      echo "당신의 비밀번호는 " . "<span style=\"color: red;\">" . $row["password"] . "</span> 입니다.<br>";
+                      function generateRandomString($length = 10) {
+                        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                        $charactersLength = strlen($characters);
+                        $randomString = '';
+                        for ($i = 0; $i < $length; $i++) {
+                          $randomString .= $characters[rand(0, $charactersLength - 1)];
+                        }
+                        return $randomString;
+                      }
+
+                      $random = generateRandomString();
+                      $hrandom = hash('sha256', $random . "LTaeng01100");
+                      $sql = "UPDATE `user` SET `password`='$hrandom' WHERE `name`='$name' AND `tel`='$tel' AND `email`='$email';";
+                      $con->query($sql);
+
+                      echo "당신의 임시 비밀번호는 " . "<span style=\"color: red;\">" . $random . "</span> 입니다.<br>";
                     }
                   ?>
                 </div>
