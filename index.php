@@ -179,18 +179,35 @@ mysqli_query($con, "set session character_set_client=utf8;");
                     </form>
                     <?php
                     } else {
-                    $user_sql = "SELECT `point`, (SELECT count(`ID`) FROM `baedal_list` WHERE `userId` = " . $_SESSION['usr_id'] . " AND `completeTime` is NULL) as 'baedalSize' FROM `user` WHERE `userId` = " . $_SESSION['usr_id'];
-
-                    $result = mysqli_query($con, $user_sql);
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $point = $row['point'];
-                        $baedalSize = $row['baedalSize'];
-                    }
-
                     $role_sql = "SELECT `role` FROM `authorities` WHERE `userId` = " . $_SESSION['usr_id'];
                     $result = mysqli_query($con, $role_sql);
                     while ($row = mysqli_fetch_assoc($result))
                         $auth[] = $row['role'];
+
+                    $notBaedal = 0;
+                    $isBaedal = 0;
+                    $completeBaedal = 0;
+
+                    $point_sql = "SELECT `point` FROM `user` WHERE `userId` = " . $_SESSION['usr_id'];
+                    $user_sql = "SELECT `baedal`, `completeTime` FROM `baedal_list`";
+                    if (!$isAdmin)
+                        $user_sql .= " WHERE `userId` = " . $_SESSION['usr_id'];
+
+                    $result = mysqli_query($con, $point_sql);
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $point = $row['point'];
+                    }
+
+                    $result = mysqli_query($con, $user_sql);
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        if ($row['baedal'] == 0 && $row['completeTime'] == NULL) {
+                            $notBaedal++;
+                        } else if ($row['completeTime'] == NULL) {
+                            $isBaedal++;
+                        } else {
+                            $completeBaedal++;
+                        }
+                    }
 
                     ?>
                     <h5 class="text-title">회원정보
@@ -208,8 +225,14 @@ mysqli_query($con, "set session character_set_client=utf8;");
                                 <div class="col-6">포인트</div>
                                 <div class="col-6"><?php echo $point; ?></div>
 
+                                <div class="col-6">주문완료</div>
+                                <div class="col-6"><?php echo $notBaedal; ?> 건</div>
+
                                 <div class="col-6">배송중</div>
-                                <div class="col-6"><?php echo $baedalSize; ?> 건</div>
+                                <div class="col-6"><?php echo $isBaedal; ?> 건</div>
+
+                                <div class="col-6">배송완료</div>
+                                <div class="col-6"><?php echo $completeBaedal; ?> 건</div>
                             </div>
 
                         </div>

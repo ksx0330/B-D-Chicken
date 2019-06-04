@@ -1,6 +1,6 @@
 ﻿<?php
 session_start();
-include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/WebProgramming/sql/connection/dbconnect.php";
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
 if (!isset($_SESSION['usr_id'])){
 	echo'alert("로그인이 필요합니다.");';

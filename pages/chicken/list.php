@@ -50,7 +50,8 @@ if (isset($_SESSION['usr_id'])) {
                     <?php
                     if ($isAdmin) {
                     ?>
-                     / <a class="text-success" href="./upload.php?rec=0">업로드</a>
+                     / <a class="text-secondary" href="./upload.php?rec=0">업로드</a>
+                     / <a class="text-secondary" href="./modify.php">수정</a>
                     <?php
                     }
                     ?>
@@ -78,8 +79,11 @@ if (isset($_SESSION['usr_id'])) {
                   <a href="./details.php?id=' . $row['ID'] . '"><img class="card-img-top" src="../../' . $row['url'] . '" alt=""></a>
                   <div class="card-body">
                     <h4 class="card-title">
-                      <a href="#">' . $row['title'] . '</a>
-                    </h4>
+                      <a href="#">' . $row['title'] . '</a>';
+
+                    if ($isAdmin)
+                        echo '<a class="btn btn-success float-right text-white" href="./list_next.php?id=' . $row['ID'] . '">추천 설정</a>';
+                    echo '</h4>
                     <h5>' . number_format($row['price']) . '원</h5>
                     <p class="card-text">' . $row['context'] . '</p>
                   </div>

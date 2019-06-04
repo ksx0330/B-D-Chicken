@@ -1,6 +1,6 @@
 ﻿<?php
 session_start();
-include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/WebProgramming/sql/connection/dbconnect.php";
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
 $kind = mysqli_real_escape_string($con, $_GET['kind']);
 
@@ -133,6 +133,26 @@ if (!isset($_GET['page'])) {
 			            ?>
 			            </tbody>
 			        </table>
+		            <div class="text-center text-primary">
+                        <?php
+				            $count_sql = "SELECT count(`ID`) as 'cnt' FROM `$community`";
+				            $result = mysqli_query($con, $count_sql);
+				            while ($row = mysqli_fetch_assoc($result)) {
+					            $cnt = $row['cnt'];
+				            }
+
+				            $minPage = 1;
+				            $maxPage = (int)($cnt / $maxItem) + 1;
+										            
+				            echo "<a class='text-primary' href='./notice.php?page=$minPage&kind=$kind'><</a>";
+				            for ($i = 1; $i < $cnt / $maxItem; $i++)
+					            echo "<a class='text-primary' href='./notice.php?page=$i&kind=$kind'>$i</a>, ";
+				            echo "<a class='text-primary' href='./notice.php?page=$i&kind=$kind'>$i</a>";
+				            echo "<a class='text-primary' href='./notice.php?page=$maxPage&kind=$kind'>></a>";
+                        ?>
+                    </div>
+			
+
                     <?php
 					if (isset($_SESSION['usr_id'])){
 						if (in_array("IS_ADMIN", $auth))
@@ -142,25 +162,6 @@ if (!isset($_GET['page'])) {
 
                 </div>
             </div>
-			
-		<div class="text-center large_font text-primary">
-            <?php
-				$count_sql = "SELECT count(`ID`) as 'cnt' FROM `$community`";
-				$result = mysqli_query($con, $count_sql);
-				while ($row = mysqli_fetch_assoc($result)) {
-					$cnt = $row['cnt'];
-				}
-
-				$minPage = 1;
-				$maxPage = (int)($cnt / $maxItem) + 1;
-										
-				echo "<a class='text-primary' href='./notice.php?page=$minPage&kind=$kind'><</a>";
-				for ($i = 1; $i < $cnt / $maxItem; $i++)
-					echo "<a class='text-primary' href='./notice.php?page=$i&kind=$kind'>$i</a>, ";
-				echo "<a class='text-primary' href='./notice.php?page=$i&kind=$kind'>$i</a>";
-				echo "<a class='text-primary' href='./notice.php?page=$maxPage&kind=$kind'>></a>";
-            ?>
-        </div>
 			
 			
         </div>
