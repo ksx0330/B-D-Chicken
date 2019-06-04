@@ -1,13 +1,6 @@
 <?php
 session_start();
-<<<<<<< HEAD
-//include "/home/ltaeng/Downloads/con/dbconnect.php";
-include "../../sql/connection/dbconnect.php";
-
-$_SESSION['usr_id'] = 12;
-=======
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
->>>>>>> upstream/master
 
 if (!isset($_SESSION['usr_id'])) {
   echo '<script>
@@ -109,18 +102,6 @@ while ($row = mysqli_fetch_assoc($result)) {
                         $tel = $p1 . "-" . $p2 . "-" . $p3;
 
                         echo "<input type='text' class='form-control' name='user_tel' value='$tel'>";
-                      ?>
-                    </span>
-                    <span class="col-2"></span>
-
-                    <span class="col-2 my-5"></span>
-                    <span class="col-3 text-right">
-                      포인트
-                    </span>
-                    <span class="col-5">
-                      <?php
-                        $point = $_SESSION['point'];
-                        echo "<input type='text' class='form-control' name='user_point' value='$point' disabled>";
                       ?>
                     </span>
                     <span class="col-2"></span>
