@@ -130,6 +130,7 @@ if (!isset($_COOKIE['baskets'])) {
 
   function basket() {
     var num = Number($("#_number").val());
+    var chicken = $("#chicken").text();
     var id = <?php echo $id; ?>;
     var obj = {
       id : id,
@@ -144,6 +145,8 @@ if (!isset($_COOKIE['baskets'])) {
     }
     Cookies.remove('baskets', { path: '' });
     Cookies.set('baskets', JSON.stringify(baskets));
+
+    alert(chicken + " " + num + "개를 장바구니에 담았습니다.");
   }
   </script>
 
