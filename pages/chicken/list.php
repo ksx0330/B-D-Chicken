@@ -1,7 +1,6 @@
 <?php
 session_start();
-//include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
-include "../../sql/connection/dbconnect.php";
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 ?>
 <!DOCTYPE html>
 <html>

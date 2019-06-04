@@ -1,7 +1,6 @@
 <?php
 session_start();
-//include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
-include "../../sql/connection/dbconnect.php";
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
 $id = mysqli_real_escape_string($con, $_POST['id']);
 $title = mysqli_real_escape_string($con, $_POST['title']);
