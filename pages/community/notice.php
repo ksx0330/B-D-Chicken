@@ -1,6 +1,6 @@
 ﻿<?php
 session_start();
-include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/WebProgramming/sql/connection/dbconnect.php";
 
 $kind = mysqli_real_escape_string($con, $_GET['kind']);
 
@@ -12,12 +12,18 @@ else {
 	$community = "notice";
 	$kind = 1;
 }
-
-$role_sql = "SELECT `role` FROM `authorities` WHERE `userId` = " . $_SESSION['usr_id'];
-$result = mysqli_query($con, $role_sql);
-while ($row = mysqli_fetch_assoc($result))
-	$auth[] = $row['role'];
-
+if (isset($_SESSION['usr_id'])){
+	$role_sql = "SELECT `role` FROM `authorities` WHERE `userId` = " . $_SESSION['usr_id'];
+	$result = mysqli_query($con, $role_sql);
+	while ($row = mysqli_fetch_assoc($result))
+		$auth[] = $row['role'];
+}
+$maxItem = 15;
+if (!isset($_GET['page'])) {
+    $page = 1;
+} else {
+    $page = mysqli_real_escape_string($con, $_GET['page']);
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -81,9 +87,13 @@ while ($row = mysqli_fetch_assoc($result))
 			            <?php
 				            mysqli_query($con, "set session character_set_results=utf8;");
 				            if($kind == 3)
-								$query = "SELECT `ID`, `userId`, `title`, `time`, `hit`, `answer`, (SELECT `name` FROM `user` WHERE `userId` = `$community`.`userId`) as `name` FROM `$community` ORDER BY `ID` DESC";
+								$query = "SELECT `ID`, `userId`, `title`, `time`, `hit`, `answer`, (SELECT `name` FROM `user` WHERE `userId` = `$community`.`userId`)
+										as `name` FROM `$community` ORDER BY `ID` DESC LIMIT " . 
+										($page - 1) * $maxItem . ", $maxItem";
 							else
-								$query = "SELECT `ID`, `userId`, `title`, `time`, `hit`, (SELECT `name` FROM `user` WHERE `userId` = `$community`.`userId`) as `name` FROM `$community` ORDER BY `ID` DESC";
+								$query = "SELECT `ID`, `userId`, `title`, `time`, `hit`, (SELECT `name` FROM `user` WHERE `userId` = `$community`.`userId`) 
+										as `name` FROM `$community` ORDER BY `ID` DESC LIMIT " . 
+										($page - 1) * $maxItem . ", $maxItem";	
 							
 							$result = mysqli_query($con, $query);
 
@@ -124,12 +134,35 @@ while ($row = mysqli_fetch_assoc($result))
 			            </tbody>
 			        </table>
                     <?php
-                    if (in_array("IS_ADMIN", $auth))
-                        echo "<a href='./write.php?kind=<?php echo $kind; ?>'>글쓰기</a>";
+					if (isset($_SESSION['usr_id'])){
+						if (in_array("IS_ADMIN", $auth))
+							echo "<a href='./write.php?kind=<?php echo $kind; ?>'>글쓰기</a>";
+					}
                     ?>
 
                 </div>
             </div>
+			
+		<div class="text-center large_font text-primary">
+            <?php
+				$count_sql = "SELECT count(`ID`) as 'cnt' FROM `$community`";
+				$result = mysqli_query($con, $count_sql);
+				while ($row = mysqli_fetch_assoc($result)) {
+					$cnt = $row['cnt'];
+				}
+
+				$minPage = 1;
+				$maxPage = (int)($cnt / $maxItem) + 1;
+										
+				echo "<a class='text-primary' href='./notice.php?page=$minPage&kind=$kind'><</a>";
+				for ($i = 1; $i < $cnt / $maxItem; $i++)
+					echo "<a class='text-primary' href='./notice.php?page=$i&kind=$kind'>$i</a>, ";
+				echo "<a class='text-primary' href='./notice.php?page=$i&kind=$kind'>$i</a>";
+				echo "<a class='text-primary' href='./notice.php?page=$maxPage&kind=$kind'>></a>";
+            ?>
+        </div>
+			
+			
         </div>
         <!-- /.col-lg-9 -->
 

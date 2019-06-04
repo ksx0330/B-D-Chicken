@@ -1,6 +1,6 @@
 ﻿<?php
 session_start();
-include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/WebProgramming/sql/connection/dbconnect.php";
 
 $kind = mysqli_real_escape_string($con, $_GET['kind']);
 
@@ -115,12 +115,7 @@ else {
 				$query = "select title, context, time, hit, userId, (SELECT `name` FROM `user` WHERE `userId` = `$community`.`userId`) as `name` from $community where ID = '$ID'";
 				$result = $con->query($query);
 				$rows = mysqli_fetch_assoc($result);
-				
-				
-				$query2 = "SELECT `userId` FROM $community WHERE `userId` = $_SESSION[usr_id]";				          
-				$result2 = $con->query($query2);
-				$rows2 = mysqli_fetch_row($result2);
-		
+					
 			?>
 	 
 			<table class="table table-bordered" align=center>
@@ -147,11 +142,16 @@ else {
 						<button class="btn btn-yellow btn-radius mx-1 my-2" onclick="location.href='./notice.php?kind=<?php echo $kind; ?>'">목록</button>
 						
 					<?php
+					if (isset($_SESSION['usr_id'])){
+						$query2 = "SELECT `userId` FROM $community WHERE `userId` = $_SESSION[usr_id]";				          
+						$result2 = $con->query($query2);
+						$rows2 = mysqli_fetch_row($result2);
 						if($rows2[0] == $_SESSION['usr_id']){
 					?>
 						<button class="btn btn-yellow btn-radius mx-1 my-2" onclick="location.href='./modify.php?ID=<?=$ID?>&kind=<?php echo $kind; ?>'">수정</button>
 						<button class="btn btn-yellow btn-radius mx-1 my-2" onclick="del()">삭제</button>
-				  <?php } ?>
+					<?php } 
+					}?>
 					</center>
 				</div>			
 					
