@@ -22,78 +22,30 @@ while ($row = mysqli_fetch_assoc($result)) {
     $point = $row['point'];
 }
 
+
+$name = mysqli_real_escape_string($con, $_POST["user_name"]);
+$addr = mysqli_real_escape_string($con, $_POST["user_addr"]);
+$tel = mysqli_real_escape_string($con, str_replace('-', '', $_POST["user_tel"]));
+
+$sql = "UPDATE `user` SET `name`='$name', `address`='$addr', `tel`='$tel' WHERE `userId`=" . $_SESSION['usr_id'];
+mysqli_query($con, "set session character_set_connection=utf8;");
+mysqli_query($con, "set session character_set_results=utf8;");
+mysqli_query($con, "set session character_set_client=utf8;");
+
+$result = mysqli_query($con, $sql);
+
+$URL = '../../index.php';
+if($result){
+?>		
+	<script>
+		alert("<?php echo"정보가 성공적으로 수정되었습니다."?>");
+		location.replace("<?php echo $URL ?>");
+	</script>
+<?php
+}
+
+else{
+	echo "FAIL! " . mysqli_error($con);
+}
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-  <?php include "../header.php"; ?>
 
-</head>
-<body>
-  <?php include "../navbar.php"; ?>
-
-  <!-- Page Content -->
-  <div class="container-fluid" style="padding-left: 125px; padding-right: 125px; background-image: url('../../assets/images/background-2.png');">
-    <div class="row">
-
-      <!-- /.col-lg-3 -->
-
-      <div class="col-lg-9">
-
-        <div class="row">
-
-          <div class="col-lg-12 mt-4">
-            <div class="btn btn-yellow full_button">
-              <span class="huge_font" style="float: left; padding-left: 1.5rem;">
-                프로필 수정
-              </span>
-
-            </div>
-          </div>
-
-          <div class="col-lg-12 col-md-6 mb-4">
-            <div class="card h-100 p-5">
-              <div clas="card-body">
-                <?php
-                  $name = $_POST["user_name"];
-                  $addr = $_POST["user_addr"];
-                  $tel = $_POST["user_tel"];
-
-                  $sql = "UPDATE `user` SET `name`='$name', `address`='$addr', `tel`='$tel' WHERE `userId`=" . $_SESSION['usr_id'];
-                  mysqli_query($con, "set session character_set_connection=utf8;");
-                  mysqli_query($con, "set session character_set_results=utf8;");
-                  mysqli_query($con, "set session character_set_client=utf8;");
-
-                  $result = mysqli_query($con, $sql);
-
-                  if (!$result) {
-                    echo "처리 중 오류가 발생하였습니다.<br>";
-                  }
-                  else {
-                    echo "정보가 성공적으로 수정되었습니다.<br>";
-                  }
-                ?>
-              </div>
-
-              <!--<div class="card-footer"></div>-->
-            </div>
-          </div>
-
-        </div>
-        <!-- /.row -->
-
-      </div>
-      <!-- /.col-lg-9 -->
-
-
-      <?php include "../sidebar.php"; ?>
-    </div>
-    <!-- /.row -->
-
-  </div>
-  <!-- /.container -->
-
-  <?php include "../footer.php"; ?>
-
-</body>
-</html>
