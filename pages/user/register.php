@@ -1,5 +1,13 @@
 <?php
+session_start();
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+
+if (isset($_SESSION['usr_id'])) {
+    echo '<script>
+            alert("로그아웃을 먼저 해주세요.");
+            location.href = "../../index.php";
+          </script>';
+}
 
 ?>
 <!DOCTYPE html>

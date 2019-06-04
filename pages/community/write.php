@@ -4,7 +4,7 @@ include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
 $kind = mysqli_real_escape_string($con, $_GET['kind']);
 
-$URL = '././index.php';
+$URL = './notice.php?kind=' . $kind;
 if (!isset($_SESSION['usr_id'])){
 ?>
 	<script>

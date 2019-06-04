@@ -17,6 +17,16 @@
                             <input type="password" class="form-control" placeholder="패스워드" name="password">
                         </div>
                         <button type="submit" class="btn btn-primary form-control">로그인</button>
+                        <div class="my-1">
+                            <div class="float-left">
+                                <a href="../user/register.php">회원가입</a>
+                            </div>
+
+                            <div class="float-right">
+                                <a href="../user/idfind.php">이메일 찾기</a>
+                                <a href="../user/pwfind.php">비밀번호 찾기</a>
+                            </div>
+                        </div>
                     </form>
                     <?php
                     } else {
@@ -28,8 +38,18 @@
                         $baedalSize = $row['baedalSize'];
                     }
 
+                    $role_sql = "SELECT `role` FROM `authorities` WHERE `userId` = " . $_SESSION['usr_id'];
+                    $result = mysqli_query($con, $role_sql);
+                    while ($row = mysqli_fetch_assoc($result))
+                        $auth[] = $row['role'];
+
                     ?>
-                    <h5 class="text-title">회원정보</h5>
+                    <h5 class="text-title">회원정보
+                    <?php
+                    if (in_array("IS_ADMIN", $auth))
+                        echo "[관리자]";
+                    ?>
+                    </h5>
                     <div class="card m-0">
                         <div class="card-body">
                             <div class="row">

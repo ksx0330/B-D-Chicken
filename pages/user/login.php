@@ -18,7 +18,7 @@ if ($row = mysqli_fetch_array($result)) {
 	$_SESSION['usr_name'] = $row['name'];
 
     $URL = '../../index.php';
-    ?>		
+    ?>
 	<script>
 		alert("<?php echo"로그인이 성공했습니다!"?>");
 		location.replace("<?php echo $URL ?>");
