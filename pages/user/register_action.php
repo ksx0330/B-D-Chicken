@@ -1,5 +1,6 @@
 <?php
-include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+//include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+include "../../sql/connection/dbconnect.php";
 include_once '../../lib/encrypt.php';
 
 if(!isset($_POST['name']) || $_POST['name'] == '') { echo "이름을 입력해 주시길 바랍니다."; exit; }

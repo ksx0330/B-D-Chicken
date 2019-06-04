@@ -1,6 +1,7 @@
 <?php
 session_start();
-include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+//include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+include "../../sql/connection/dbconnect.php";
 
 if (isset($_SESSION['usr_id'])) {
     echo '<script>
