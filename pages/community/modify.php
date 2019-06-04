@@ -2,19 +2,17 @@
 session_start();
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
-/*
 $URL = '././index.php';
 if (!isset($_SESSION['usr_id'])){
+?>
 	<script>
 		alert("로그인이 필요합니다.");
+        location.replace("<?php echo $URL ?>");
 	</script>
-	location.replace("<?php echo $URL ?>");
+<?php
 }
-*/
-$_SESSION['usr_id'] = 1;
-$_SESSION['usr_name'] = "조선주";
-$ID = $_GET['ID'];
 
+$ID = mysqli_real_escape_string($con, $_GET['ID']);
 $kind = mysqli_real_escape_string($con, $_GET['kind']);
 if ($kind == 2)
 	$community = "free";
@@ -27,7 +25,6 @@ mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
 mysqli_query($con, "set session character_set_client=utf8;");
 
-$ID = $_GET['ID'];
 $query = "select title, context, time, hit, userId from $community where ID = '$ID'";
 $result = $con->query($query);
 $rows = mysqli_fetch_assoc($result);

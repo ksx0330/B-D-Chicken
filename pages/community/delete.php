@@ -2,24 +2,21 @@
 session_start();
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
-/*
 if (!isset($_SESSION['usr_id'])){
 	echo'alert("로그인이 필요합니다.");';
 	header("location: ../user/login.php");
 }
-*/
+
 $URL = './notice.php';
 
 $ID = mysqli_real_escape_string($con, $_GET['ID']);
 $kind = mysqli_real_escape_string($con, $_GET['kind']);
-$time = date('Y-m-d H:i:s');
 
 if ($kind == 2)
 	$community = "free";
 else
 	$community = "notice";
 $URL = './notice.php?kind=' . $kind;
-
 
 $query = "DELETE FROM `$community` WHERE `$community`.`ID` = '$ID'";
 $result = $con->query($query);
@@ -37,6 +34,4 @@ else{
 	echo "FAIL! " . mysqli_error($con);
 }
 mysqli_close($con);
-?>
-*/
 ?>

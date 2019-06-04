@@ -11,13 +11,6 @@ else {
 	$kind = 1;
 }
 
-/*
-if (!isset($_SESSION['usr_id']))
-	header("location: ../user/login.php");
-*/
-
-$_SESSION['usr_id'] = 1;
-$_SESSION['usr_name'] = "조선주";
 ?>
 <!DOCTYPE html>
 <html>

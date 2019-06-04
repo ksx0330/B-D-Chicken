@@ -1,5 +1,10 @@
 <?php
+session_start();
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+
+mysqli_query($con, "set session character_set_connection=utf8;");
+mysqli_query($con, "set session character_set_results=utf8;");
+mysqli_query($con, "set session character_set_client=utf8;");
 ?>
 <!DOCTYPE html>
 <html>
@@ -85,22 +90,17 @@ include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
             -->
           </ol>
           <div class="carousel-inner" role="listbox">
-            <div class="carousel-item active">
-              <!--
-              <img class="d-block img-fluid" src="./assets/images/cherryChicken.png" alt="First slide">
-              -->
-              <img class="d-block img-fluid" src="./assets/images/cherryChicken-2.png" alt="First slide">
-            </div>
-            <!--
-            <div class="carousel-item">
-              <img class="d-block img-fluid" src="./assets/images/huneyChili.png" alt="Second slide">
-            </div>
-            -->
-            <!--
-            <div class="carousel-item">
-              <img class="d-block img-fluid" src="http://placehold.it/1200x350" alt="Third slide">
-            </div>
-            -->
+            <?php
+            $carousel_sql = "SELECT * FROM `items_carousel`";
+            $result = mysqli_query($con, $carousel_sql);
+            while ($row = mysqli_fetch_assoc($result))
+                echo '
+                    <a class="carousel-item" href="./pages/chicken/details.php?id=' . $row['itemId'] . '">
+                      <img class="d-block img-fluid" src="' . $row['img'] . '">
+                    </a>
+                ';
+            ?>
+
           </div>
           <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -114,101 +114,30 @@ include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
         <div class="row">
 
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="./assets/images/foreChicken.png" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">네조각 치킨</a>
-                </h4>
-                <h5>4,000원</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
+          <?php
 
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="./assets/images/seedChicken.png" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">씨앗 치킨</a>
-                </h4>
-                <h5>16,000원</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
 
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="./assets/images/mintChicken.png" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">민트 치킨</a>
-                </h4>
-                <h5>0원</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
+          $sql = "SELECT `ID`, `title`, `price`, `context`, (SELECT `url` FROM `item_images` WHERE `itemId` = `items`.`ID`) as `url` FROM `items` WHERE `rec` = 1 ORDER BY `ID` DESC LIMIT 0, 6";
+          $result = mysqli_query($con, $sql);
 
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="./assets/images/moldiv.png" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">몰디브 치킨</a>
-                </h4>
-                <h5>$24.99</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
+          while ($row = mysqli_fetch_assoc($result)) {
+              echo '
+              <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                  <a href="./pages/chicken/details.php?id=' . $row['ID'] . '"><img class="card-img-top" src="./' . $row['url'] . '" alt=""></a>
+                  <div class="card-body">
+                    <h4 class="card-title">
+                      <a href="#">' . $row['title'] . '</a>
+                    </h4>
+                    <h5>' . number_format($row['price']) . '원</h5>
+                    <p class="card-text">' . $row['context'] . '</p>
+                  </div>
+                  <div class="card-footer"></div>
+                </div>
+              </div>';
+          }
 
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="./assets/images/sunsul.png" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">선술점 치킨</a>
-                </h4>
-                <h5>$24.99</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">Item Six</a>
-                </h4>
-                <h5>$24.99</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
+          ?>
 
         </div>
         <!-- /.row -->
@@ -221,18 +150,78 @@ include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
         <div class="container">
             <div class="card">
                 <div class="card-body">
+                    <?php
+
+                    if (!isset($_SESSION['usr_id'])) {
+                    ?>
                     <div class="text-center">
                         <img src="./assets/images/Text_Logo.svg" height=100 class="img_top" style="width: 5rem;" />
                         <img src="./assets/images/Chicken_Logo.svg" height=150 style="width: 7rem;" />
                     </div>
                     <h5 class="card-title">로그인</h5>
-                    <form>
+                    <form method="POST" action="./pages/user/login.php">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="이메일" id="staticEmail" >
-                            <input type="password" class="form-control" placeholder="패스워드" id="inputPassword">
+                            <input type="text" class="form-control" placeholder="이메일" name="email" >
+                            <input type="password" class="form-control" placeholder="패스워드" name="password">
                         </div>
                         <button type="submit" class="btn btn-primary form-control">로그인</button>
+                        
+                        <div class="my-1">
+                            <div class="float-left">
+                                <a href="./pages/user/register.php">회원가입</a>
+                            </div>
+
+                            <div class="float-right">
+                                <a href="./pages/user/idfind.php">이메일 찾기</a>
+                                <a href="./pages/user/pwfind.php">비밀번호 찾기</a>
+                            </div>
+                        </div>
                     </form>
+                    <?php
+                    } else {
+                    $user_sql = "SELECT `point`, (SELECT count(`ID`) FROM `baedal_list` WHERE `userId` = " . $_SESSION['usr_id'] . " AND `completeTime` is NULL) as 'baedalSize' FROM `user` WHERE `userId` = " . $_SESSION['usr_id'];
+
+                    $result = mysqli_query($con, $user_sql);
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $point = $row['point'];
+                        $baedalSize = $row['baedalSize'];
+                    }
+
+                    $role_sql = "SELECT `role` FROM `authorities` WHERE `userId` = " . $_SESSION['usr_id'];
+                    $result = mysqli_query($con, $role_sql);
+                    while ($row = mysqli_fetch_assoc($result))
+                        $auth[] = $row['role'];
+
+                    ?>
+                    <h5 class="text-title">회원정보
+                    <?php
+                    if (in_array("IS_ADMIN", $auth))
+                        echo "[관리자]";
+                    ?>
+                    </h5>
+                    <div class="card m-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6 form-group">이름</div>
+                                <div class="col-6"><?php echo $_SESSION['usr_name']; ?></div>
+
+                                <div class="col-6">포인트</div>
+                                <div class="col-6"><?php echo $point; ?></div>
+
+                                <div class="col-6">배송중</div>
+                                <div class="col-6"><?php echo $baedalSize; ?> 건</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <a class="btn btn-secondary full_button text-white" href="./pages/user/profile.php">내 정보</a>
+                    <div class="text-right my-1">
+                        <a href="./pages/user/logout.php">로그아웃</a>
+                    </div>
+                    <?php
+                    }
+
+                    ?>
                   </div>
                 </div>
 
@@ -268,8 +257,7 @@ include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
                             사이트 연결
                             <br>
                         </span>
-                        <div class="url_label"><img src="./assets/images/lck.png" style="width: 10rem; height: 5rem" /></div>
-                        <div class="url_label"><img src="./assets/images/kbo.png" style="width: 10rem; height: 5rem" /></div>
+                        <img src="./assets/images/sports.png" style="height: 11.5rem" onclick="window.open('./popup/sports.php', '_blank', 'width=523, height=530, toolbar=no, scrollbars=no, resizable=yes');">
                     </div>
                 </div>
             </div>
@@ -284,10 +272,14 @@ include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
   <!-- Footer -->
   <footer class="py-5 bg-dark">
     <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+      <p class="m-0 text-center text-white">Copyright &copy; B&D Chicken (LTaeng Venture)</p>
     </div>
     <!-- /.container -->
   </footer>
 
+    <script>
+        $($(".carousel-item")[0]).addClass("active");
+
+    </script>
     </body>
 </html>

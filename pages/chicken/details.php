@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../../sql/connection/dbconnect.php";
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
 mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
@@ -47,9 +47,10 @@ if(!isset($_GET['id'])) {
                      <div class="card-body px-2">
                        <h1 class="card-title huge_font">'.$rows['title'].'</h3>
                        <h3 class="card-subtitle text-muted mt-1">'.$rows['price'].'원</h4>
-                       <h4 class="card-text mt-4">'.$rows['context'].'</p>
+                       <h4 class="card-text mt-4"><p>'.$rows['context'].'</p>
                        <div class="form-group row">
                          <form method="post" action="payment.php">
+                           <input type="hidden" name="id" value="' . $_GET['id'] .'">
                            <input class="form-control col-6 ml-3" name="num" type="number" value="1" min="1">
                            <input class="btn btn-primary col-6 ml-3" type="submit" value="주문하기">
                          </form>
@@ -78,7 +79,7 @@ if(!isset($_GET['id'])) {
                                      </div>
                                      <div class="col-md-10">
                                          <p class="text-left col-md-12"><strong>'.$row['title'].'</strong></p>
-                                         <div class="clearfix text-left col-md-12"><p>'.$row['context'].'</p></div>
+                                         <div class="clearfix text-left col-md-12"><p>' . $row['context'] . '</p></div>
                                      </div>
                                  </div>
                          </div>

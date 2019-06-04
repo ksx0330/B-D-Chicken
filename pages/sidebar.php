@@ -2,18 +2,78 @@
     <div class="container">
         <div class="card">
             <div class="card-body">
-                <div class="text-center">
-                    <img src="../../assets/images/Text_Logo.svg" height=100 class="img_top" style="width: 5rem;" />
-                    <img src="../../assets/images/Chicken_Logo.svg" height=150 style="width: 7rem;" />
-                </div>
-                <h5 class="card-title">로그인</h5>
-                <form>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="이메일" id="staticEmail" >
-                        <input type="password" class="form-control" placeholder="패스워드" id="inputPassword">
+                    <?php
+
+                    if (!isset($_SESSION['usr_id'])) {
+                    ?>
+                    <div class="text-center">
+                        <img src="../../assets/images/Text_Logo.svg" height=100 class="img_top" style="width: 5rem;" />
+                        <img src="../../assets/images/Chicken_Logo.svg" height=150 style="width: 7rem;" />
                     </div>
-                    <button type="submit" class="btn btn-primary form-control">로그인</button>
-                </form>
+                    <h5 class="card-title">로그인</h5>
+                    <form method="POST" action="../user/login.php">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="이메일" name="email" >
+                            <input type="password" class="form-control" placeholder="패스워드" name="password">
+                        </div>
+                        <button type="submit" class="btn btn-primary form-control">로그인</button>
+                        <div class="my-1">
+                            <div class="float-left">
+                                <a href="../user/register.php">회원가입</a>
+                            </div>
+
+                            <div class="float-right">
+                                <a href="../user/idfind.php">이메일 찾기</a>
+                                <a href="../user/pwfind.php">비밀번호 찾기</a>
+                            </div>
+                        </div>
+                    </form>
+                    <?php
+                    } else {
+                    $user_sql = "SELECT `point`, (SELECT count(`ID`) FROM `baedal_list` WHERE `userId` = " . $_SESSION['usr_id'] . " AND `completeTime` is NULL) as 'baedalSize' FROM `user` WHERE `userId` = " . $_SESSION['usr_id'];
+
+                    $result = mysqli_query($con, $user_sql);
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $point = $row['point'];
+                        $baedalSize = $row['baedalSize'];
+                    }
+
+                    $role_sql = "SELECT `role` FROM `authorities` WHERE `userId` = " . $_SESSION['usr_id'];
+                    $result = mysqli_query($con, $role_sql);
+                    while ($row = mysqli_fetch_assoc($result))
+                        $auth[] = $row['role'];
+
+                    ?>
+                    <h5 class="text-title">회원정보
+                    <?php
+                    if (in_array("IS_ADMIN", $auth))
+                        echo "[관리자]";
+                    ?>
+                    </h5>
+                    <div class="card m-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6 form-group">이름</div>
+                                <div class="col-6"><?php echo $_SESSION['usr_name']; ?></div>
+
+                                <div class="col-6">포인트</div>
+                                <div class="col-6"><?php echo $point; ?></div>
+
+                                <div class="col-6">배송중</div>
+                                <div class="col-6"><?php echo $baedalSize; ?> 건</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <a class="btn btn-secondary full_button text-white" href="../user/profile.php">내 정보</a>
+                    <div class="text-right my-1">
+                        <a href="../user/logout.php">로그아웃</a>
+                    </div>
+                    <?php
+                    }
+
+                    ?>
+                  </div>
               </div>
             </div>
 
@@ -49,8 +109,8 @@
                         사이트 연결
                         <br>
                     </span>
-                        <div class="url_label"><img src="../../assets/images/lck.png" style="width: 10rem; height: 5rem" /></div>
-                        <div class="url_label"><img src="../../assets/images/kbo.png" style="width: 10rem; height: 5rem" /></div>
+                    <img src="../../assets/images/sports.png" style="height: 11.5rem" onclick="window.open('../../popup/sports.php', '_blank', 'width=523, height=530, toolbar=no, scrollbars=no, resizable=yes');">
+
                 </div>
             </div>
         </div>

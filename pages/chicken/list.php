@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 ?>
 <!DOCTYPE html>
@@ -38,19 +39,19 @@ include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
           mysqli_query($con, "set session character_set_results=utf8;");
           mysqli_query($con, "set session character_set_client=utf8;");
 
-          $sql = "SELECT `ID`, `title`, `price`, `context`, (SELECT `url` FROM `item_images` WHERE `itemId` = `items`.`ID`) as `url` FROM `items`";
+          $sql = "SELECT `ID`, `title`, `price`, `context`, (SELECT `url` FROM `item_images` WHERE `itemId` = `items`.`ID`) as `url` FROM `items` ORDER BY `ID` DESC";
           $result = mysqli_query($con, $sql);
 
           while ($row = mysqli_fetch_assoc($result)) {
               echo '
               <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
-                  <a href="#"><img class="card-img-top" src="../../' . $row['url'] . '" alt=""></a>
+                  <a href="./details.php?id=' . $row['ID'] . '"><img class="card-img-top" src="../../' . $row['url'] . '" alt=""></a>
                   <div class="card-body">
                     <h4 class="card-title">
                       <a href="#">' . $row['title'] . '</a>
                     </h4>
-                    <h5>' . $row['price'] . '원</h5>
+                    <h5>' . number_format($row['price']) . '원</h5>
                     <p class="card-text">' . $row['context'] . '</p>
                   </div>
                   <div class="card-footer"></div>

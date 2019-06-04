@@ -9,6 +9,7 @@
 <!-- CSS -->
 <link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet"> 
 <link rel="stylesheet" type="text/css" href="../../css/style.css?v=0.0.1">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 <!-- JavaScript -->
 <script src="../../vendor/jquery/jquery.min.js"></script>

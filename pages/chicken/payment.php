@@ -2,9 +2,6 @@
 session_start();
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
-$_SESSION['usr_id'] = 1;
-$_SESSION['usr_name'] = '조선주';
-
 if (!isset($_SESSION['usr_id'])) {
     echo '<script>
             alert("로그인이 필요합니다.");
@@ -13,16 +10,15 @@ if (!isset($_SESSION['usr_id'])) {
 }
 
 
-$num = mysqli_real_escape_string($con, $_GET['num']);
-$chickenId = mysqli_real_escape_string($con, $_GET['id']);
-$user_sql = "SELECT `title`, `price`, `context`, (SELECT url FROM `item_images` WHERE `itemId` = `items`.`ID`) as `url` FROM `items` WHERE `ID` = '$chickenId'";
-
+$num = mysqli_real_escape_string($con, $_POST['num']);
+$chickenId = mysqli_real_escape_string($con, $_POST['id']);
 
 mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
 mysqli_query($con, "set session character_set_client=utf8;");
 
-$result = mysqli_query($con, $user_sql);
+$item_sql = "SELECT `title`, `price`, `context`, (SELECT url FROM `item_images` WHERE `itemId` = `items`.`ID`) as `url` FROM `items` WHERE `ID` = '$chickenId'";
+$result = mysqli_query($con, $item_sql);
 if ($result == False) exit();
 while ($row = mysqli_fetch_assoc($result)) {
     $title = $row['title'];
@@ -31,12 +27,18 @@ while ($row = mysqli_fetch_assoc($result)) {
     $url = $row['url'];
 }
 
-$cupon_sql = "SELECT `ID`, `name`, `price` FROM `cupon` WHERE `userId` = '" . $_SESSION['usr_id'] . "'";
+$date = date("Y-m-d", time());
+$cupon_sql = "SELECT * FROM `cupon_list` WHERE `ID` in (SELECT `cuponId` FROM `cupon` WHERE `userId` = " . $_SESSION['usr_id'] . ") AND `minPrice` <= " . $price * $num . " AND `startTime` <= '$date' AND `endTime` >= '$date'";
+
+$resultCnt = 0;
+
 $result = mysqli_query($con, $cupon_sql);
 while ($row = mysqli_fetch_assoc($result)) {
-    $cupon['name'][] = $row['name'];
-    $cupon['id'][] = $row['ID'];
-    $cupon['price'][] = str_replace(',', '', $row['price']);
+    $cupon[$resultCnt]['name'] = $row['name'];
+    $cupon[$resultCnt]['id'] = $row['ID'];
+    $cupon[$resultCnt]['price'] = str_replace(',', '', $row['price']);
+
+    $resultCnt++;
 }
 
 $point_sql = "SELECT `tel`, `address`, `point` FROM `user` WHERE `userId`=" . $_SESSION['usr_id'];
@@ -98,10 +100,10 @@ while ($row = mysqli_fetch_assoc($result)) {
                     </div>
                 </div>
 
-                <form method="post" >
-                    <input type="hidden" name="id" value="<?php echo $id; ?>">
+                <form method="post" action="./payment_action.php">
+                    <input type="hidden" name="id" value="<?php echo $chickenId; ?>">
                     <input type="hidden" name="num" value="<?php echo $num; ?>">
-                    <input type="hidden" name="cupon[]">
+                    <input type="hidden" name="cupon">
 
                     <div class="card">
                         <div class="card-body text-left">
@@ -204,8 +206,8 @@ while ($row = mysqli_fetch_assoc($result)) {
                                     <select id="unusedCupon" class="form-control">
                                         <?php
                                         echo count($cupon);
-                                        for ($i = 0; $i < count($cupon['id']); $i++)
-                                            echo "<option name=" . $cupon['id'][$i] . " price=" . $cupon['price'][$i] . ">" . $cupon['name'][$i] ."</option>";
+                                        for ($i = 0; $i < count($cupon); $i++)
+                                            echo "<option name=" . $cupon[$i]['id'] . " price=" . $cupon[$i]['price'] . ">" . $cupon[$i]['name'] ." (" . number_format($cupon[$i]['price']) . "원)</option>";
                                         ?>
                                     </select>
                                 </div>
@@ -347,8 +349,8 @@ while ($row = mysqli_fetch_assoc($result)) {
         }
 
         function updateCupon() {
-            var values = $.map($('#usedCupon option'), function(e) { return e.value; });
-            $("input[name='cupon[]']").val(JSON.stringify(values));
+            var values = $.map($('#usedCupon option'), function(e) { return $(e).attr('name'); });
+            $("input[name='cupon']").val(JSON.stringify(values));
         }
 
 
