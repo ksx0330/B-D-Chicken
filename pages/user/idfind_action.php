@@ -37,9 +37,9 @@ include "../../sql/connection/dbconnect.php";
                 <div class="large_font p-5">
                   <?php
                     $name = $_POST["user_name"];
-                    $tel = $_POST["user_tel"];
+                    $tel = mysqli_real_escape_string($con, str_replace('-', '', $_POST["user_tel"]));
 
-                    $sql = "SELECT userId FROM user WHERE name='$name' AND tel='$tel';";
+                    $sql = "SELECT `email` FROM user WHERE name='$name' AND tel='$tel';";
                     mysqli_query($con, "set session character_set_connection=utf8;");
                     mysqli_query($con, "set session character_set_results=utf8;");
                     mysqli_query($con, "set session character_set_client=utf8;");
