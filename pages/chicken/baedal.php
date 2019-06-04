@@ -245,22 +245,22 @@ while ($row = mysqli_fetch_assoc($result)) {
     if ($isAdmin) {
     ?>
     <script>
-	function nextPhase(id) {
-		$.ajax({
-			type: "POST",
+    function nextPhase(id) {
+        $.ajax({
+            type: "POST",
             dataType: 'json',
-			url: './baedal_next.php',
-			data: {
+            url: './baedal_next.php',
+            data: {
                 id: id
             },
-			success: function(response) {
-		    	$("#phase" + id).removeClass(response[0][0]);
+            success: function(response) {
+                $("#phase" + id).removeClass(response[0][0]);
                 $("#phase" + id).addClass(response[1][0]);
-                $("#phase" + id).text(response[1][1])
-			}
-		});
-		return false;
-	}
+                $("#phase" + id).text(response[1][1]);
+            }
+        });
+        return false;
+    }
 
     </script>
     <?php
