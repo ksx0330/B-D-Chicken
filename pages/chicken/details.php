@@ -6,12 +6,22 @@ mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
 mysqli_query($con, "set session character_set_client=utf8;");
 
-if(!isset($_GET['id'])) {
+$id = mysqli_real_escape_string($con, $_GET['id']);
+
+if(!isset($id)) {
   echo '
     <script>
       location.replace("./details.php?id=1");
     </script>
   ';
+}
+
+
+if (!isset($_COOKIE['baskets'])) {
+    setcookie('baskets', '[]', time() + 60 * 15);
+    $baskets = '[]';
+} else {
+    $baskets = $_COOKIE['baskets'];
 }
 
 ?>
@@ -45,14 +55,15 @@ if(!isset($_GET['id'])) {
                    </div>
                    <div class="col text-left">
                      <div class="card-body px-2">
-                       <h1 class="card-title huge_font">'.$rows['title'].'</h3>
+                       <h1 class="card-title huge_font" id="chicken">'.$rows['title'].'</h3>
                        <h3 class="card-subtitle text-muted mt-1">'.$rows['price'].'원</h4>
                        <h4 class="card-text mt-4"><p>'.$rows['context'].'</p>
                        <div class="form-group row">
                          <form method="post" action="payment.php">
                            <input type="hidden" name="id" value="' . $_GET['id'] .'">
-                           <input class="form-control col-6 ml-3" name="num" type="number" value="1" min="1">
+                           <input class="form-control col-6 ml-3" id="_number" name="num" type="number" value="1" min="1">
                            <input class="btn btn-primary col-6 ml-3" type="submit" value="주문하기">
+                           <input class="btn btn-yellow col-6 ml-3" type="button" value="장바구니에 담기" onclick="basket();">
                          </form>
                        </div>
                      </div>
@@ -112,6 +123,28 @@ if(!isset($_GET['id'])) {
   <!-- /.container -->
 
   <?php include "../footer.php"; ?>
+
+  <script>
+  var baskets = <?php echo $baskets; ?>;
+
+  function basket() {
+    var num = Number($("#_number").val());
+    var id = <?php echo $id; ?>;
+    var obj = {
+      id : id,
+      num : num
+    };
+
+    var idx = baskets.findIndex(x => x.id == obj.id)
+    if (idx != -1) {
+        baskets[idx].num += obj.num;
+    } else {
+        baskets.push(obj);
+    }
+    Cookies.remove('baskets', { path: '' });
+    Cookies.set('baskets', JSON.stringify(baskets));
+  }
+  </script>
 
     </body>
 </html>

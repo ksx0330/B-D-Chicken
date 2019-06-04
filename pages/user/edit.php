@@ -1,7 +1,6 @@
 <?php
 session_start();
-//include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
-include "../../sql/connection/dbconnect.php";
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
 if (!isset($_SESSION['usr_id'])) {
   echo '<script>
@@ -107,6 +106,16 @@ while ($row = mysqli_fetch_assoc($result)) {
                     </span>
                     <span class="col-2"></span>
 
+                    <span class="col-2 my-5"></span>
+                    <span class="col-3 text-right">
+                      포인트
+                    </span>
+                    <span class="col-5">
+                      <?php
+                        echo "<input type='text' class='form-control' name='user_point' value='$point' disabled>";
+                      ?>
+                    </span>
+                    <span class="col-2"></span>
                   </div>
 
                   <input type="submit" class="btn btn-primary form-control w-25 form-group float-right my-5" value="수정하기">

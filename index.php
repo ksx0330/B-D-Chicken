@@ -18,7 +18,7 @@ mysqli_query($con, "set session character_set_client=utf8;");
         <!-- Bootstrap core CSS -->
         <link href="./vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <!-- CSS -->
-        <link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="css/style.css?v=0.0.1">
 
         <!-- JavaScript -->
@@ -59,7 +59,7 @@ mysqli_query($con, "set session character_set_client=utf8;");
                 <h4 class="mx-2 my-0"> | </h4>
             </li>
             <li class="nav-item">
-                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="#">장바구니</a> </h4>
+                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="./pages/user/basket.php">장바구니</a> </h4>
             </li>
         </ul>
 
@@ -165,7 +165,7 @@ mysqli_query($con, "set session character_set_client=utf8;");
                             <input type="password" class="form-control" placeholder="패스워드" name="password">
                         </div>
                         <button type="submit" class="btn btn-primary form-control">로그인</button>
-                        
+
                         <div class="my-1">
                             <div class="float-left">
                                 <a href="./pages/user/register.php">회원가입</a>
@@ -211,7 +211,7 @@ mysqli_query($con, "set session character_set_client=utf8;");
                                 <div class="col-6">배송중</div>
                                 <div class="col-6"><?php echo $baedalSize; ?> 건</div>
                             </div>
-                            
+
                         </div>
                     </div>
                     <a class="btn btn-secondary full_button text-white" href="./pages/user/profile.php">내 정보</a>
