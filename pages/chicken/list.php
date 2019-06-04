@@ -93,7 +93,7 @@ if (isset($_SESSION['usr_id'])) {
         <!-- /.row -->
         <div class="text-center large_font text-primary">
             <?php
-            $count_sql = "SELECT count(`ID`) as 'cnt' FROM `items` WHERE `rec` = 1";
+            $count_sql = "SELECT count(`ID`) as 'cnt' FROM `items`";
             $result = mysqli_query($con, $count_sql);
             while ($row = mysqli_fetch_assoc($result)) {
                 $cnt = $row['cnt'];
@@ -102,11 +102,11 @@ if (isset($_SESSION['usr_id'])) {
             $minPage = 1;
             $maxPage = (int)($cnt / $maxItem) + 1;
 
-            echo "<a class='text-primary' href='./index.php?page=$minPage'><</a>";
+            echo "<a class='text-primary' href='./list.php?page=$minPage'><</a>";
             for ($i = 1; $i < $cnt / $maxItem; $i++)
-                echo "<a class='text-primary' href='./index.php?page=$i'>$i</a>, ";
-            echo "<a class='text-primary' href='./index.php?page=$i'>$i</a>";
-            echo "<a class='text-primary' href='./index.php?page=$maxPage'>></a>";
+                echo "<a class='text-primary' href='./list.php?page=$i'>$i</a>, ";
+            echo "<a class='text-primary' href='./list.php?page=$i'>$i</a>";
+            echo "<a class='text-primary' href='./list.php?page=$maxPage'>></a>";
             ?>
         </div>
 

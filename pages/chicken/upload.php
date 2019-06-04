@@ -1,8 +1,11 @@
 <?php
-$con = mysqli_connect("220.68.91.224", "chicken", "passwd", "chicken") or die("ERROR" . mysqli_error($con));
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
 mysqli_query($con, "set session character_set_client=utf8;");
+
+$rec = mysqli_real_escape_string($con, $_GET['rec']);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,6 +36,7 @@ mysqli_query($con, "set session character_set_client=utf8;");
                 </div>
                 <div class="card-body p-3">
                   <form action="upload_action.php" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="rec" value="<?php echo $rec; ?>">
                     <input class="form-control col-4 ml-3" type="text" name="title" placeholder="치킨 이름" value="<?php if(isset($title)){echo $title;} ?>">
                     <input class="form-control col-4 ml-3" type="text" name="price" placeholder="치킨 가격(원, 3자리마다 구분)" value="<?php if(isset($price)){echo $price;} ?>">
                     <textarea class="form-control col-10 ml-3" name="context" cols=85 rows=6 placeholder="치킨 설명" value="<?php if(isset($context)){echo $context;} ?>" ></textarea>
