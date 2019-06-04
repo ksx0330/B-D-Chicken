@@ -1,6 +1,7 @@
 ﻿<?php
 session_start();
-include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/WebProgramming/sql/connection/dbconnect.php";
+
 
 $kind = mysqli_real_escape_string($con, $_GET['kind']);
 
@@ -12,6 +13,19 @@ if (!isset($_SESSION['usr_id'])){
         location.replace("<?php echo $URL ?>");
 	</script>
 <?php
+}
+if ($kind == 1){
+	$query = "SELECT `role` FROM `authorities` WHERE `userId` = $_SESSION[usr_id]";				          
+	$result = $con->query($query);
+	$rows = mysqli_fetch_row($result);
+	$admin = 'IS_ADMIN';
+	if(strcmp($rows[0], $admin)){
+		echo '<script>
+			alert("관리자 권한이 필요합니다.");
+			history.back();
+		</script>';
+		exit();
+	}
 }
 ?>
 <!DOCTYPE html>
@@ -65,6 +79,8 @@ if (!isset($_SESSION['usr_id'])){
 					<?php
 					if ($kind == 2)
 						echo '자유 게시판';
+					else if ($kind == 3)
+						echo 'Q & A';
 					else
 						echo '공지 사항';
 					?>

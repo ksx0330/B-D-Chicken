@@ -1,6 +1,6 @@
 ﻿<?php
 session_start();
-include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/WebProgramming/sql/connection/dbconnect.php";
 
 $URL = '././index.php';
 if (!isset($_SESSION['usr_id'])){
@@ -16,6 +16,8 @@ $ID = mysqli_real_escape_string($con, $_GET['ID']);
 $kind = mysqli_real_escape_string($con, $_GET['kind']);
 if ($kind == 2)
 	$community = "free";
+elseif ($kind == 3)
+	$community = "question";
 else {
 	$community = "notice";
 	$kind = 1;
@@ -25,11 +27,23 @@ mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
 mysqli_query($con, "set session character_set_client=utf8;");
 
+$query = "SELECT `userId` FROM $community WHERE `userId` = $_SESSION[usr_id]";				          
+$result = $con->query($query);
+$rows = mysqli_fetch_row($result);
+
+if($rows[0] != $_SESSION['usr_id']){
+	echo '<script>
+		alert("본인이 작성한 정보만 수정이 가능합니다.");
+		history.back();
+	</script>';
+	exit();
+}
+
+
+$ID = $_GET['ID'];
 $query = "select title, context, time, hit, userId from $community where ID = '$ID'";
 $result = $con->query($query);
 $rows = mysqli_fetch_assoc($result);
-
-
 
 ?>
 <!DOCTYPE html>
@@ -83,11 +97,13 @@ $rows = mysqli_fetch_assoc($result);
             <div class="btn btn-yellow full_button">
                 <span class="huge_font" style="float: left; padding-left: 1.5rem;">
 					<?php
-					if ($community == 'notice')
-						echo '공지 사항';
+					if ($community == 'question')
+						echo 'Q&A';
 					else if ($community == 'free')
 						echo '자유 게시판';
-					?> - 수정
+					else
+						echo '공지 사항';	
+					?>
                 </span>
             </div>
           </div>

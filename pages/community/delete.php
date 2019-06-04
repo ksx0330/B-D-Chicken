@@ -1,6 +1,6 @@
 ﻿<?php
 session_start();
-include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/WebProgramming/sql/connection/dbconnect.php";
 
 if (!isset($_SESSION['usr_id'])){
 	echo'alert("로그인이 필요합니다.");';
@@ -14,9 +14,25 @@ $kind = mysqli_real_escape_string($con, $_GET['kind']);
 
 if ($kind == 2)
 	$community = "free";
-else
+elseif ($kind == 3)
+	$community = "question";
+else {
 	$community = "notice";
+	$kind = 1;
+}
 $URL = './notice.php?kind=' . $kind;
+
+$query = "SELECT `userId` FROM $community WHERE `userId` = $_SESSION[usr_id]";				          
+$result = $con->query($query);
+$rows = mysqli_fetch_row($result);
+
+if($rows[0] != $_SESSION['usr_id']){
+	echo '<script>
+		alert("본인이 작성한 정보만 수정이 가능합니다.");
+		history.back();
+	</script>';
+	exit();
+}
 
 $query = "DELETE FROM `$community` WHERE `$community`.`ID` = '$ID'";
 $result = $con->query($query);

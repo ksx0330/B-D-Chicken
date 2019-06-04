@@ -4,15 +4,6 @@ include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/WebProgramming/sql/connect
 
 $kind = mysqli_real_escape_string($con, $_GET['kind']);
 
-if ($kind == 2)
-	$community = "free";
-elseif ($kind == 3)
-	$community = "question";
-else {
-	$community = "notice";
-	$kind = 1;
-}
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -91,10 +82,7 @@ else {
             <div class="btn btn-yellow full_button">
                 <span class="huge_font" style="float: left; padding-left: 1.5rem;">
 					<?php
-					if ($community == 'notice')
-						echo '공지 사항';
-					else if ($community == 'free')
-						echo '자유 게시판';
+						echo 'Q&A';
 					?>
                 </span>
             </div>
@@ -109,18 +97,17 @@ else {
 				mysqli_query($con, "set session character_set_client=utf8;");
 			
 				$ID = mysqli_real_escape_string($con, $_GET['ID']);
-				$hit = "update $community set hit=hit+1 where ID=$ID";
+				$hit = "update question set hit=hit+1 where ID=$ID";
                 $con->query($hit);
 				
-				$query = "select title, context, time, hit, userId, (SELECT `name` FROM `user` WHERE `userId` = `$community`.`userId`) as `name` from $community where ID = '$ID'";
+				$query = "select title, context, answer, time, hit, userId, (SELECT `name` FROM `user` WHERE `userId` = `question`.`userId`) as `name` from question where ID = '$ID'";
 				$result = $con->query($query);
 				$rows = mysqli_fetch_assoc($result);
 				
-				
-				$query2 = "SELECT `userId` FROM $community WHERE `userId` = $_SESSION[usr_id]";				          
+				$query2 = "SELECT `role` FROM authorities WHERE `userId` = $_SESSION[usr_id]";		
 				$result2 = $con->query($query2);
-				$rows2 = mysqli_fetch_row($result2);
-		
+				$row2 = mysqli_fetch_array($result2);
+				$admin = 'IS_ADMIN';
 			?>
 	 
 			<table class="table table-bordered" align=center>
@@ -139,71 +126,60 @@ else {
 					<?php echo $rows['context']?></td>
 			</tr>
 			</table>
+			
+			<?php
+				if($rows['answer'] != null){?>
+					<table class="table table-bordered" align=center>
+					<tr>
+							<td colspan="4" class="view_title"><?php echo 'Answer - ' . $rows['title']?></td>
+					</tr>	
+					<tr>
+							<td colspan="4" class="" valign="top">
+							<?php echo $rows['answer']?></td>
+					</tr>
+					</table>		
+			<?php }
+				else if(!strcmp($row2[0], $admin)){?>
+					<div class="card text-center">
+						<div class="card-body">
+							<form method="post" action="answer_action.php">
+								<table class="table">
+									<tr>
+										<td>답변</td>
+										<td><textarea class="form-control" name = "answer" cols=85 rows=15></textarea></td>
+									</tr>
+								</table>
+								<input type="hidden" name="kind" value="<?php echo $kind; ?>">
+								<input type="hidden" name="ID" value="<?php echo $ID;?>">
+								<input class="btn btn-yellow btn-radius mx-1 my-2" type = "submit" value="작성">
+							</form>
+
+						</div>
+					</div>
+		
+		  <?php }?>
 	 
-	 
-				<!-- MODIFY & DELETE -->
-				<div class="text-center">
-					<center>
-						<button class="btn btn-yellow btn-radius mx-1 my-2" onclick="location.href='./notice.php?kind=<?php echo $kind; ?>'">목록</button>
-						
-					<?php
-						if($rows2[0] == $_SESSION['usr_id']){
-					?>
+			<!-- MODIFY & DELETE -->
+			<div class="text-center">
+				<center>
+					<button class="btn btn-yellow btn-radius mx-1 my-2" onclick="location.href='./notice.php?kind=<?php echo $kind; ?>'">목록</button>
+					<?php 
+						if($rows2['answer'] == null){
+							if($rows2[0] == $_SESSION['usr_id']){
+						?>
 						<button class="btn btn-yellow btn-radius mx-1 my-2" onclick="location.href='./modify.php?ID=<?=$ID?>&kind=<?php echo $kind; ?>'">수정</button>
 						<button class="btn btn-yellow btn-radius mx-1 my-2" onclick="del()">삭제</button>
-				  <?php } ?>
-					</center>
-				</div>			
-					
-				<?php
-					if($kind == 2){
+					  <?php } ?>
+
+					<?php }
+						if(!strcmp($row2[0], $admin)){ ?>
+							<button class="btn btn-yellow btn-radius mx-1 my-2" onclick="location.href='./Q&A_del.php?ID=<?=$ID?>&kind=<?php echo $kind; ?>'">삭제</button>
+							<?php
+						}
 					?>
-					 <div class="card mt-0">
-					   <div class="card-title mb-0">
-						 <p class="large_font text-left ml-4 mt-3 mb-0">댓글</p>
-					   </div>
-					   <div class="card-body pt-0">
-						 <?php
-						   $sql = "SELECT `context`, (SELECT `name` FROM `user` WHERE `user`.`userId` = `comment`.`userId`) as `name` FROM `comment` WHERE `boardId` = $ID";
-						   $result = mysqli_query($con, $sql);
-						    if($result === FALSE) { 
-								die(mysql_error()); // TODO: better error handling
-							}
-						   while($row = mysqli_fetch_assoc($result)) {
-							 echo '
-							   <div class="card mt-0">
-									   <div class="card-body">
-										 <div class="row">
-											 <div class="col-md-2 large_font">
-											   <p>'.$row['name'].'</p>
-											 </div>
-											 <div class="col-md-10">
-												 <div class="clearfix text-left col-md-12"><p>'.$row['context'].'</p></div>
-											 </div>
-										 </div>
-								 </div>
-							 </div>
-							 ';
-						   }
-						  ?>
-					   </div>
-					 </div>
-					 <div class="card mt-0 mb-3">
-					   <div class="card-title">
-						 <p class="large_font float-left ml-4 mt-2 mb-0">댓글 작성</p>
-					   </div>
-					   <div class="card-body p-1">
-						 <form method="post" action="comment_action.php" class="ml-3">
-						   <input type="hidden" name="id" value="<?php echo $ID; ?>">
-						   <textarea class="form-control col-10" name="context" cols=85 rows=6 placeholder="내용" value="<?php if(isset($context)){echo $context;} ?>" ></textarea>
-						   <input class="btn btn-yellow btn-radius mx-1 my-2" type="submit" value="작성">
-						 </form>
-					   </div>
-					 </div>
-					<?php
-					}
-				?>	
-					
+				</center>
+			</div>			
+			
 			  </div>
 		  </div>
 

@@ -1,6 +1,6 @@
 ﻿<?php
 session_start();
-include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/WebProgramming/sql/connection/dbconnect.php";
 
 if (!isset($_SESSION['usr_id'])){
 	echo'alert("로그인이 필요합니다.");';
@@ -23,8 +23,13 @@ $time = date('Y-m-d H:i:s');
 
 if ($kind == 2)
 	$community = "free";
-else
+elseif ($kind == 3){
+	$community = "question";
+}
+else {
 	$community = "notice";
+	$kind = 1;
+}
 $URL = './notice.php?kind=' . $kind;
 
 mysqli_query($con, "set session character_set_connection=utf8;");
@@ -47,6 +52,4 @@ else{
 	echo "FAIL! " . mysqli_error($con);
 }
 mysqli_close($con);
-?>
-*/
 ?>
