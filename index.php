@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/B-D-Chicken/sql/connection/dbconnect.php";
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
 mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
@@ -79,20 +79,24 @@ mysqli_query($con, "set session character_set_client=utf8;");
           <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <!--
             <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-            -->
           </ol>
           <div class="carousel-inner" role="listbox">
             <?php
-            $carousel_sql = "SELECT * FROM `items_carousel`";
+            $carousel_sql = "SELECT * FROM `items_carousel` ORDER BY `ID` DESC";
             $result = mysqli_query($con, $carousel_sql);
-            while ($row = mysqli_fetch_assoc($result))
+            while ($row = mysqli_fetch_assoc($result)) {
+                if ($row['itemId'] != -1)
+                    $url = './pages/chicken/details.php?id=' . $row['itemId'];
+                else
+                    $url = '#';
+
                 echo '
-                    <a class="carousel-item" href="./pages/chicken/details.php?id=' . $row['itemId'] . '">
+                    <a class="carousel-item" href="' . $url . '">
                       <img class="d-block img-fluid" src="' . $row['img'] . '">
                     </a>
                 ';
+            }
             ?>
 
           </div>
