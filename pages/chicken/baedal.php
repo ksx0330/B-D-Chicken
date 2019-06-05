@@ -138,7 +138,7 @@ if (empty($baedal))
                                 </div>
 
                                 <div class="float-right">
-                                    <span>' . $baedal[$i]['price'] . ' 원</span>
+                                    <span>' . number_format($baedal[$i]['price']) . ' 원</span>
                                 </div>
                             </div>
 
