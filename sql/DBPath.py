@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 #최상위 폴더부터 모든 PHP 팔의 dbconnect include를 바꿔주는 스크립트. 
 #첫 번째 인자: 최상위 경로(./WebProgramming)
 #두 번째 인자: 바꿀 위치(/home/ltaeng/Downloads/con/dbconnect.php)

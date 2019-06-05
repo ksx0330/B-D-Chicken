@@ -18,7 +18,7 @@ if(!isset($id)) {
 
 
 if (!isset($_COOKIE['baskets'])) {
-    setcookie('baskets', '[]', time() + 60 * 15);
+    setcookie('baskets', '[]', time() + 60 * 60 * 24, '../');
     $baskets = '[]';
 } else {
     $baskets = $_COOKIE['baskets'];
@@ -136,13 +136,13 @@ if (!isset($_COOKIE['baskets'])) {
       num : num
     };
 
-    var idx = baskets.findIndex(x => x.id == obj.id)
+    var idx = baskets.findIndex(x => x.id == obj.id);
     if (idx != -1) {
         baskets[idx].num += obj.num;
     } else {
         baskets.push(obj);
     }
-    Cookies.remove('baskets', { path: '' });
+    Cookies.remove('baskets', { path: '../' });
     Cookies.set('baskets', JSON.stringify(baskets));
 
     alert(chicken + " " + num + "개를 장바구니에 담았습니다.");

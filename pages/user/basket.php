@@ -9,6 +9,40 @@ if (!isset($_SESSION['usr_id'])) {
           </script>';
 }
 
+mysqli_query($con, "set session character_set_connection=utf8;");
+mysqli_query($con, "set session character_set_results=utf8;");
+mysqli_query($con, "set session character_set_client=utf8;");
+
+if (!isset($_COOKIE['baskets'])) {
+    setcookie('baskets', '[]', time() + 60 * 60 * 24, '../');
+    $baskets = [];
+} else {
+    $baskets = json_decode($_COOKIE['baskets'], true);
+}
+
+$resultCnt = 0;
+
+if (!empty($baskets)) {
+  for($i = 0; $i < count($baskets); $i++) {
+    $ID = $baskets[$i]['id'];
+
+    $sql = "SELECT `title`, `price`, (SELECT url FROM `item_images` WHERE `itemId`='$ID') as `url` FROM `items` WHERE `ID`=" . $ID;
+    $result = $con->query($sql);
+    $row = mysqli_fetch_assoc($result);
+
+    $item[$resultCnt]['ID'] = $ID;
+    $item[$resultCnt]['price'] = $row['price'];
+    $item[$resultCnt]['url'] = $row['url'];
+    $item[$resultCnt]['title'] = $row['title'];
+    $item[$resultCnt]['num'] = $baskets[$i]['num'];
+
+    $resultCnt++;
+  }
+}
+
+if (empty($item))
+  $item = [];
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -38,48 +72,44 @@ if (!isset($_SESSION['usr_id'])) {
 
         <div class="card">
             <div class="card-body text-center">
+                <?php
 
-                <div class="card">
-                    <div class="card-body text-left">
-                      <?php
-                        mysqli_query($con, "set session character_set_connection=utf8;");
-                        mysqli_query($con, "set session character_set_results=utf8;");
-                        mysqli_query($con, "set session character_set_client=utf8;");
+                for ($i = 0; $i < count($item); $i++) {
+                    echo '
+                    <div class="card" id="chicken' . $item[$i]['ID'] . '">
+                        <div class="card-body text-left">
+                            <a href="./details.php?id=' . $item[$i]['ID'] . '" .>
+                                <img class="float-left" src="../../' . $item[$i]['url'] . '" width=220 height=120>
+                            </a>
+                            <div class="large_font float-left px-4" style="width: calc(100% - 220px)">
+                                <form method="post" action="../chicken/payment.php">
+                                  <input type="hidden" name="id" value="' . $item[$i]['ID'] . '">
+                                  <input type="hidden" name="num" value="' . $item[$i]['num'] . '">
+                                  <input type="submit" class="btn btn-primary float-right" value="주문하기">
+                                  <input type="button" class="btn btn-yellow float-right mx-2" value="삭제하기" onclick="myRemove(' . $item[$i]['ID'] . ');">
+                                </form>
 
-                        $basket = $_COOKIE["baskets"];
+                                <div>
+                                    <span>이름: </span>
+                                    <span>' . $item[$i]['title'] . '</span>
+                                </div>
+                                <div>
+                                    <span>개수: </span>
+                                    <span>' . $item[$i]['num'] . ' 개</span>
+                                </div>
 
-                        $item_sql = "SELECT `title`, `price`, `context`, (SELECT url FROM `item_images` WHERE `itemId` = `items`.`ID`) as `url` FROM `items` WHERE `ID` = '$chickenId'";
-                        $result = mysqli_query($con, $item_sql);
-                        if ($result == False) exit();
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            $title = $row['title'];
-                            $price = str_replace(',', '', $row['price']);
-                            $context = $row['context'];
-                            $url = $row['url'];
-                        }
-
-                        foreach($basket as $val) {
-
-                        }
-                      ?>
-                        <img class="float-left" src="../../<?php echo $url; ?>" width=220 height=120>
-                        <div class="large_font float-left px-4" style="width: calc(100% - 220px)">
-                            <div>
-                                <span>이름: </span>
-                                <span><?php echo $title; ?></span>
-                            </div>
-                            <div>
-                                <span>개수: </span>
-                                <span><?php echo $num; ?> 개</span>
+                                <div class="float-right">
+                                    <span>' . number_format($item[$i]['price'] * $item[$i]['num']) . ' 원</span>
+                                </div>
                             </div>
 
-                            <div class="float-right">
-                                <span><?php echo number_format($price * $num); ?> 원</span>
-                            </div>
                         </div>
 
                     </div>
-                </div>
+                    ';
+                }
+
+                ?>
 
             </div>
         </div>
@@ -97,6 +127,21 @@ if (!isset($_SESSION['usr_id'])) {
   <!-- /.container -->
 
   <?php include "../footer.php"; ?>
+
+    <script>
+        function myRemove(id) {
+            var baskets = <?php echo $_COOKIE['baskets']; ?>;
+            baskets.splice(baskets.findIndex(x => x.id === id), 1);
+
+            Cookies.remove('baskets', { path: '../' });
+            Cookies.set('baskets', JSON.stringify(baskets));
+
+            location.reload();
+
+            $('div').remove('#chicken' + id);
+
+        }
+    </script>
 
     </body>
 </html>
