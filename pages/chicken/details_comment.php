@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/B-D-Chicken/sql/connection/dbconnect.php";
 
 $id = mysqli_real_escape_string($con, $_POST['id']);
 $title = mysqli_real_escape_string($con, $_POST['title']);

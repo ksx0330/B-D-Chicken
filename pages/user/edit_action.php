@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/B-D-Chicken/sql/connection/dbconnect.php";
 include_once '../../lib/encrypt.php';
 
 if (!isset($_SESSION['usr_id'])) {
@@ -37,6 +37,11 @@ $tel = mysqli_real_escape_string($con, str_replace('-', '', $_POST["user_tel"]))
 $changed_pw = hash('sha256', mysqli_real_escape_string($con, $_POST["user_pwch"]) . "LTaeng01100");
 $changed_pw2 = hash('sha256', mysqli_real_escape_string($con, $_POST["user_pwch2"]) . "LTaeng01100");
 
+if (!$name) {
+  echo "이름을 입력해주세요.";
+  exit();
+}
+
 if ($changed_pw !== $changed_pw2) {
   echo "재입력한 비밀번호가 일치하지 않습니다.";
   exit();
@@ -54,6 +59,7 @@ $result = mysqli_query($con, $sql);
 
 $URL = '../../index.php';
 if($result){
+  $_SESSION['usr_name'] = $name;
 ?>
 	<script>
 		alert("<?php echo"정보가 성공적으로 수정되었습니다."?>");

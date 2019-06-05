@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/B-D-Chicken/sql/connection/dbconnect.php";
 
 if (!isset($_SESSION['usr_id'])) {
     echo '<script>
@@ -22,7 +22,18 @@ while ($row = mysqli_fetch_assoc($result)) {
     $point = $row['point'];
 }
 
+$coupon_sql = "SELECT `cuponId` FROM `cupon` WHERE `userId`=" . $_SESSION['usr_id'];
+$result = $con->query($coupon_sql);
+$cupon_list = [];
 
+while ($row = mysqli_fetch_assoc($result)) {
+    if (empty($cupon_list[$row['cuponId']])) {
+        $cupon_list[$row['cuponId']] = 1;
+    }
+    else {
+        $cupon_list[$row['cuponId']]++;
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -107,6 +118,40 @@ while ($row = mysqli_fetch_assoc($result)) {
                   <span class="col-5">
                     <?=$point ?>
                   </span>
+                  <span class="col-2"></span>
+
+                  <span class="col-2 my-5"></span>
+                  <div class="col-3 text-right">
+                    보유 쿠폰
+                  </div>
+                  <div class="col-5">
+                    <?php
+                      if (count($cupon_list) == 0) echo "없음";
+                      else {
+                        foreach ($cupon_list as $id => $num) {
+                          $sql = "SELECT `name`, `price`, `context` FROM `cupon_list` WHERE `ID`=" . $id;
+                          $result = $con->query($sql);
+                          $row = mysqli_fetch_assoc($result);
+
+                          echo '
+                          <div class="card">
+                              <div class="card-body text-left">
+                                  <div>
+                                      <span style="color: red;">' . $row['name'] . '</span>
+                                  </div>
+                                  <div>
+                                      <span style="font-size: 1.2rem;">' . $row['context'] . '</span>
+                                  </div>
+                                  <div>
+                                      <span class="float-right">' . number_format($row['price']) . '원 (' . $num .'개)</span>
+                                  </div>
+                              </div>
+                          </div>
+                          ';
+                        }
+                      }
+                    ?>
+                  </div>
                   <span class="col-2"></span>
                 </div>
 
