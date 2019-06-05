@@ -64,8 +64,11 @@ if (!$error) {
     $insert_role_sql = "INSERT INTO `authorities`(`userId`, `role`) VALUES ($id, 'IS_USER')";
     $result_role = mysqli_query($con, $insert_role_sql);
 
+    $insert_cupon_sql = "INSERT INTO `cupon`(`userId`, `cuponId`) VALUES ($id, 1), ($id, 2), ($id, 3)";
+    $result_cupon_role = mysqli_query($con, $insert_cupon_sql);
+
     $URL = '../../index.php';
-    if($result_user and $result_role){
+    if($result_user and $result_role and $result_cupon_role){
     ?>
 	    <script>
 		    alert("<?php echo"회원가입이 완료되었습니다!"?>");

@@ -63,12 +63,6 @@ mysqli_query($con, "set session character_set_client=utf8;");
             </li>
         </ul>
 
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <input type="text" class="form-control" placeholder="검색" style="display: inline-block; width: auto;"/>
-            <div class="btn btn-info">검색</div>
-          </li>
-        </ul>
       </div>
     </div>
   </nav>

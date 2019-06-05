@@ -78,7 +78,7 @@ if (empty($item))
                     echo '
                     <div class="card" id="chicken' . $item[$i]['ID'] . '">
                         <div class="card-body text-left">
-                            <a href="./details.php?id=' . $item[$i]['ID'] . '" .>
+                            <a href="../chicken/details.php?id=' . $item[$i]['ID'] . '" .>
                                 <img class="float-left" src="../../' . $item[$i]['url'] . '" width=220 height=120>
                             </a>
                             <div class="large_font float-left px-4" style="width: calc(100% - 220px)">

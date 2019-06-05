@@ -12,13 +12,16 @@ else {
 	$community = "notice";
 	$kind = 1;
 }
+
 if (isset($_SESSION['usr_id'])){
 	$role_sql = "SELECT `role` FROM `authorities` WHERE `userId` = " . $_SESSION['usr_id'];
 	$result = mysqli_query($con, $role_sql);
 	while ($row = mysqli_fetch_assoc($result))
 		$auth[] = $row['role'];
 }
+
 $maxItem = 15;
+
 if (!isset($_GET['page'])) {
     $page = 1;
 } else {

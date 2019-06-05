@@ -12,7 +12,6 @@ if (!isset($_SESSION['usr_id'])) {
 $id = mysqli_real_escape_string($con, $_POST['id']);
 $num = mysqli_real_escape_string($con, $_POST['num']);
 $cuponAll = json_decode($_POST['cupon']);
-echo $cuponAll;
 if (!empty($cuponAll))
     foreach ($cuponAll as $c)
         $cupon[] = mysqli_real_escape_string($con, $c);
@@ -70,8 +69,6 @@ $usedCupon = json_encode($cuponVerified);
 
 $insert_sql = "INSERT INTO `baedal_list`(`userId`, `itemId`, `itemName`, `itemNum`, `peopleName`, `addressName`, `phone1`, `phone2`, `address`, `memo`, `usedCupon`, `usedPoint`, `price`, `baedal`) VALUES(" . $_SESSION['usr_id'] . ", $id, '$title', $num, '$peopleName', '$addressName', '$phone1', '$phone2', '$address', '$memo', '$usedCupon', $point, '$price', '0')";
 $result = mysqli_query($con, $insert_sql);
-
-echo mysqli_error($con);
 
 $lastPoint += $price / 100;
 $point_reduce_sql = "UPDATE `user` SET `point` = $lastPoint WHERE `user`.`userId` = " . $_SESSION['usr_id'];
