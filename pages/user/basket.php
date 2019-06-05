@@ -131,9 +131,7 @@ if (empty($item))
     <script>
         function myRemove(id) {
             var baskets = <?php echo $_COOKIE['baskets']; ?>;
-            console.log("before: " + baskets);
             baskets.splice(baskets.findIndex(x => x.id === id), 1);
-            console.log("after: " + baskets);
 
             Cookies.remove('baskets', { path: '../' });
             Cookies.set('baskets', JSON.stringify(baskets));
