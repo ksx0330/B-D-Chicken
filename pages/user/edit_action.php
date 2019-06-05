@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/B-D-Chicken/sql/connection/dbconnect.php";
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 include_once '../../lib/encrypt.php';
 
 if (!isset($_SESSION['usr_id'])) {
@@ -54,6 +54,7 @@ $result = mysqli_query($con, $sql);
 
 $URL = '../../index.php';
 if($result){
+  $_SESSION['usr_name'] = $name;
 ?>
 	<script>
 		alert("<?php echo"정보가 성공적으로 수정되었습니다."?>");
