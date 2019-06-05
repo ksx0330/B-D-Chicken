@@ -2,7 +2,10 @@
 session_start();
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
-$kind = mysqli_real_escape_string($con, $_GET['kind']);
+if (isset($_GET['kind']))
+    $kind = mysqli_real_escape_string($con, $_GET['kind']);
+else
+    $kind = 1;
 
 if ($kind == 2)
 	$community = "free";
