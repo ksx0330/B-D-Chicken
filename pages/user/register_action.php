@@ -1,5 +1,5 @@
 <?php
-include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/B-D-Chickensql/connection";
+include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/B-D-Chicken/sql/connection/dbconnect.php";
 include_once '../../lib/encrypt.php';
 
 if(!isset($_POST['name']) || $_POST['name'] == '') { echo "이름을 입력해 주시길 바랍니다."; exit; }

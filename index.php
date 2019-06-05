@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/B-D-Chickensql/connection";
+include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/B-D-Chicken/sql/connection/dbconnect.php";
 
 mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
@@ -184,6 +184,11 @@ mysqli_query($con, "set session character_set_client=utf8;");
                     while ($row = mysqli_fetch_assoc($result))
                         $auth[] = $row['role'];
 
+                    if (in_array("IS_ADMIN", $auth))
+                        $isAdmin = true;
+                    else
+                        $isAdmin = false;
+
                     $notBaedal = 0;
                     $isBaedal = 0;
                     $completeBaedal = 0;
@@ -212,7 +217,7 @@ mysqli_query($con, "set session character_set_client=utf8;");
                     ?>
                     <h5 class="text-title">회원정보
                     <?php
-                    if (in_array("IS_ADMIN", $auth))
+                    if ($isAdmin)
                         echo "[관리자]";
                     ?>
                     </h5>
