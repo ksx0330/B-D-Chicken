@@ -1,5 +1,5 @@
 <?php
-include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/B-D-Chicken/sql/connection/dbconnect.php";
 
 ?>
 <!DOCTYPE html>
