@@ -103,10 +103,7 @@ $kind = mysqli_real_escape_string($con, $_GET['kind']);
 				$query = "select title, context, answer, time, hit, userId, (SELECT `name` FROM `user` WHERE `userId` = `question`.`userId`) as `name` from question where ID = '$ID'";
 				$result = $con->query($query);
 				$rows = mysqli_fetch_assoc($result);
-				
-				$query2 = "SELECT `role` FROM authorities WHERE `userId` = $_SESSION[usr_id]";		
-				$result2 = $con->query($query2);
-				$row2 = mysqli_fetch_array($result2);
+
 				$admin = 'IS_ADMIN';
 			?>
 	 
@@ -139,7 +136,13 @@ $kind = mysqli_real_escape_string($con, $_GET['kind']);
 					</tr>
 					</table>		
 			<?php }
-				else if(!strcmp($row2[0], $admin)){?>
+			
+				else if(!strcmp($row2[0], $admin)){
+					if (isset($_SESSION['usr_id'])){
+					$query2 = "SELECT `role` FROM authorities WHERE `userId` = $_SESSION[usr_id]";		
+					$result2 = $con->query($query2);
+					$row2 = mysqli_fetch_array($result2);
+					?>
 					<div class="card text-center">
 						<div class="card-body">
 							<form method="post" action="answer_action.php">
@@ -157,7 +160,8 @@ $kind = mysqli_real_escape_string($con, $_GET['kind']);
 						</div>
 					</div>
 		
-		  <?php }?>
+			 <?php }
+				}?>
 	 
 			<!-- MODIFY & DELETE -->
 			<div class="text-center">

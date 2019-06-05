@@ -18,7 +18,7 @@ if (file_exists($target_file)) {
 }
 
 // DB INFO UPLOAD
-$con = mysqli_connect("220.68.91.224", "chicken", "passwd", "chicken") or die("ERROR" . mysqli_error($con));
+include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
 mysqli_query($con, "set session character_set_client=utf8;");
@@ -27,9 +27,10 @@ $target_file = mysqli_real_escape_string($con, $target_file);
 $title = mysqli_real_escape_string($con, $_POST['title']);
 $price = mysqli_real_escape_string($con, $_POST['price']);
 $context = mysqli_real_escape_string($con, $_POST['context']);
+$rec = mysqli_real_escape_string($con, $_POST['rec']);
 
 $target_file = substr($target_file, 4);
-$sql1 = "INSERT INTO items(title, price, context, rec) VALUES('$title', '$price', '$context', 0)";
+$sql1 = "INSERT INTO items(title, price, context, rec) VALUES('$title', '$price', '$context', $rec)";
 $sql2 = "INSERT INTO item_images(itemId, url) SELECT ID, '$target_file' FROM items WHERE title = '$title'";
 
 mysqli_query($con, $sql1);

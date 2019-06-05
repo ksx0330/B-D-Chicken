@@ -26,7 +26,7 @@
                 <h4 class="mx-2 my-0"> | </h4>
             </li>
             <li class="nav-item">
-                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="#">장바구니</a> </h4>
+                <h4 class="mx-2 my-0" style="padding-left: 2rem; padding-right: 2rem;"> <a href="../user/basket.php">장바구니</a> </h4>
             </li>
         </ul>
 
