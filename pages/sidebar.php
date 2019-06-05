@@ -35,12 +35,18 @@
                     while ($row = mysqli_fetch_assoc($result))
                         $auth[] = $row['role'];
 
+                    if (in_array("IS_ADMIN", $auth))
+                        $isAdmin = true;
+                    else
+                        $isAdmin = false;
+
                     $notBaedal = 0;
                     $isBaedal = 0;
                     $completeBaedal = 0;
 
                     $point_sql = "SELECT `point` FROM `user` WHERE `userId` = " . $_SESSION['usr_id'];
                     $user_sql = "SELECT `baedal`, `completeTime` FROM `baedal_list`";
+
                     if (!$isAdmin)
                         $user_sql .= " WHERE `userId` = " . $_SESSION['usr_id'];
 
@@ -65,7 +71,7 @@
                     ?>
                     <h5 class="text-title">회원정보
                     <?php
-                    if (in_array("IS_ADMIN", $auth))
+                    if ($isAdmin)
                         echo "[관리자]";
                     ?>
                     </h5>
