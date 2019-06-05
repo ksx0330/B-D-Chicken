@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/B-D-Chickensql/connection";
 
 mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");

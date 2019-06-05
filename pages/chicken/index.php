@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
+include "C:/Bitnami/wampstack-7.1.27-0/apache2/htdocs/B-D-Chickensql/connection";
 
 if (!isset($_GET['page'])) {
     $page = 1;
