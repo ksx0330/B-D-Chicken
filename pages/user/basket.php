@@ -14,7 +14,6 @@ mysqli_query($con, "set session character_set_results=utf8;");
 mysqli_query($con, "set session character_set_client=utf8;");
 
 if (!isset($_COOKIE['baskets'])) {
-    setcookie('baskets', '[]', time() + 60 * 60 * 24, '../');
     $baskets = [];
 } else {
     $baskets = json_decode($_COOKIE['baskets'], true);
@@ -73,7 +72,8 @@ if (empty($item))
         <div class="card">
             <div class="card-body text-center">
                 <?php
-
+                if (count($item) == 0)
+                    echo "장바구니에 담긴 것이 없습니다.";
                 for ($i = 0; $i < count($item); $i++) {
                     echo '
                     <div class="card" id="chicken' . $item[$i]['ID'] . '">
