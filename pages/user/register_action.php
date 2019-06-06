@@ -1,6 +1,5 @@
 <?php
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
-include_once '../../lib/encrypt.php';
 
 if(!isset($_POST['name']) || $_POST['name'] == '') { echo "이름을 입력해 주시길 바랍니다."; exit; }
 if(!isset($_POST['email']) || $_POST['email'] == '' ) { echo "이메일을 입력해 주시길 바랍니다."; exit; }
