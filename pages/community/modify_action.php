@@ -2,9 +2,12 @@
 session_start();
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
-if (!isset($_SESSION['usr_id'])){
-	echo'alert("로그인이 필요합니다.");';
-	header("location: ../user/login.php");
+if (!isset($_SESSION['usr_id'])) {
+  echo '<script>
+          alert("로그인이 필요합니다.");
+          history.back();
+        </script>';
+	exit();
 }
 
 if (trim(preg_replace('/\r\n|\r|\n/','', $_POST['title'])) == '' || trim(preg_replace('/\r\n|\r|\n/','', $_POST['context'])) == '') {

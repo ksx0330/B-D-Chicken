@@ -8,8 +8,9 @@ $context = mysqli_real_escape_string($con, $_POST['context']);
 if (!isset($_SESSION['usr_id'])) {
   echo '<script>
           alert("로그인이 필요합니다.");
-          location.replace("./details.php?id='.$id.'");
+          history.back();
         </script>';
+	exit();
 }
 
 mysqli_query($con, "set session character_set_connection=utf8;");

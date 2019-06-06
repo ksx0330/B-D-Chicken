@@ -2,14 +2,12 @@
 session_start();
 include "/var/www/html/WebProgramming/sql/connection/dbconnect.php";
 
-$URL = '././index.php';
-if (!isset($_SESSION['usr_id'])){
-?>
-	<script>
-		alert("로그인이 필요합니다.");
-        location.replace("<?php echo $URL ?>");
-	</script>
-<?php
+if (!isset($_SESSION['usr_id'])) {
+  echo '<script>
+          alert("로그인이 필요합니다.");
+          history.back();
+        </script>';
+	exit();
 }
 
 $ID = mysqli_real_escape_string($con, $_GET['ID']);

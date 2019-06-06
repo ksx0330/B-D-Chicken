@@ -167,7 +167,7 @@ else {
 						   $sql = "SELECT `context`, (SELECT `name` FROM `user` WHERE `user`.`userId` = `comment`.`userId`) as `name` FROM `comment` WHERE `boardId` = $ID";
 						   $result = mysqli_query($con, $sql);
 						    if($result === FALSE) { 
-								die(mysql_error()); // TODO: better error handling
+								die(mysql_error());
 							}
 						   while($row = mysqli_fetch_assoc($result)) {
 							 echo '
