@@ -48,8 +48,8 @@ if ($changed_pw !== $changed_pw2) {
 }
 
 $sql = "UPDATE `user` SET `name`='$name', `address`='$addr', `tel`='$tel'";
-if ($changed_pw !== hash('sha256', "LTaeng01100")) $sql .= ", `password`='$changed_pw' WHERE `userId`=" . $_SESSION['usr_id'];
-$sql .= " WHERE `email`='$email'";
+if ($changed_pw !== hash('sha256', "LTaeng01100")) $sql .= ", `password`='$changed_pw'";
+$sql .= " WHERE `userId`=" . $_SESSION['usr_id'];
 
 mysqli_query($con, "set session character_set_connection=utf8;");
 mysqli_query($con, "set session character_set_results=utf8;");
