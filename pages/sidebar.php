@@ -106,7 +106,7 @@
                   ?>
                 </div>
             </div>
-          </div>
+
 
       <div class="card" onclick="location.href='../chicken/baedal.php'">
           <div class="card-body">
@@ -145,5 +145,6 @@
               </div>
           </div>
       </div>
+    </div>
 
   </div>

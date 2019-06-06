@@ -120,7 +120,7 @@ if ($kind == 1){
 
   </div>
   <!-- /.container -->
-	<div style = "padding-top : 2rem"></div>
+
   <?php include "../footer.php"; ?>
 
     </body>

@@ -196,7 +196,7 @@ $kind = mysqli_real_escape_string($con, $_GET['kind']);
 
   </div>
   <!-- /.container -->
-	<div style = "padding-top : 2rem"></div>
+
   <?php include "../footer.php"; ?>
 
     </body>
