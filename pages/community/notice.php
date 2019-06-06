@@ -161,7 +161,9 @@ if (!isset($_GET['page'])) {
 
                     <?php
 					if (isset($_SESSION['usr_id'])){
-						if ($kind != 1 && !in_array("IS_ADMIN", $auth))
+						if(in_array("IS_ADMIN", $auth))
+							echo "<a href='./write.php?kind=$kind'>글쓰기</a>";
+						else if($kind != 1)
 							echo "<a href='./write.php?kind=$kind'>글쓰기</a>";
 					}
                     ?>
