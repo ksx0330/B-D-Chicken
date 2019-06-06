@@ -288,6 +288,7 @@ mysqli_query($con, "set session character_set_client=utf8;");
                 </div>
             </div>
 
+            </div>
         </div>
     </div>
     <!-- /.row -->
