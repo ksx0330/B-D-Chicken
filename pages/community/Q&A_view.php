@@ -125,7 +125,7 @@ $kind = mysqli_real_escape_string($con, $_GET['kind']);
 			</table>
 			
 			<?php
-				if($rows['answer'] != null){?>
+				if ($rows['answer'] != null){?>
 					<table class="table table-bordered" align=center>
 					<tr>
 							<td colspan="4" class="view_title"><?php echo 'Answer - ' . $rows['title']?></td>
@@ -137,11 +137,18 @@ $kind = mysqli_real_escape_string($con, $_GET['kind']);
 					</table>		
 			<?php }
 			
-				else if(!strcmp($row2[0], $admin)){
-					if (isset($_SESSION['usr_id'])){
-					$query2 = "SELECT `role` FROM authorities WHERE `userId` = $_SESSION[usr_id]";		
-					$result2 = $con->query($query2);
-					$row2 = mysqli_fetch_array($result2);
+				else if(isset($_SESSION['usr_id'])){
+				  $role_sql = "SELECT `role` FROM `authorities` WHERE `userId` = " . $_SESSION['usr_id'];
+                  $result = mysqli_query($con, $role_sql);
+                  while ($row = mysqli_fetch_assoc($result))
+                      $auth[] = $row['role'];
+
+                  if (in_array("IS_ADMIN", $auth))
+                      $isAdmin = true;
+                  else
+                      $isAdmin = false;
+					
+					if ($isAdmin){
 					?>
 					<div class="card text-center">
 						<div class="card-body">
@@ -156,10 +163,8 @@ $kind = mysqli_real_escape_string($con, $_GET['kind']);
 								<input type="hidden" name="ID" value="<?php echo $ID;?>">
 								<input class="btn btn-yellow btn-radius mx-1 my-2" type = "submit" value="작성">
 							</form>
-
 						</div>
 					</div>
-		
 			 <?php }
 				}?>
 	 
